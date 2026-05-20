@@ -1,0 +1,39 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AssetManagement.Api/AssetManagement.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/BuildingBlocks.Application/BuildingBlocks.Application.csproj" />
+    <Project Path="src/BuildingBlocks/BuildingBlocks.Domain/BuildingBlocks.Domain.csproj" />
+    <Project Path="src/BuildingBlocks/BuildingBlocks.Infrastructure/BuildingBlocks.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Assets/">
+    <Project Path="src/Modules/Assets/Assets.Application/Assets.Application.csproj" />
+    <Project Path="src/Modules/Assets/Assets.Contracts/Assets.Contracts.csproj" />
+    <Project Path="src/Modules/Assets/Assets.Domain/Assets.Domain.csproj" />
+    <Project Path="src/Modules/Assets/Assets.Infrastructure/Assets.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Identity/">
+    <Project Path="src/Modules/Identity/Identity.Application/Identity.Application.csproj" />
+    <Project Path="src/Modules/Identity/Identity.Contracts/Identity.Contracts.csproj" />
+    <Project Path="src/Modules/Identity/Identity.Domain/Identity.Domain.csproj" />
+    <Project Path="src/Modules/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Replenishments/">
+    <Project Path="src/Modules/Replenishments/Replenishments.Application/Replenishments.Application.csproj" />
+    <Project Path="src/Modules/Replenishments/Replenishments.Contracts/Replenishments.Contracts.csproj" />
+    <Project Path="src/Modules/Replenishments/Replenishments.Domain/Replenishments.Domain.csproj" />
+    <Project Path="src/Modules/Replenishments/Replenishments.Infrastructure/Replenishments.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Trades/">
+    <Project Path="src/Modules/Trades/Trades.Application/Trades.Application.csproj" />
+    <Project Path="src/Modules/Trades/Trades.Contracts/Trades.Contracts.csproj" />
+    <Project Path="src/Modules/Trades/Trades.Domain/Trades.Domain.csproj" />
+    <Project Path="src/Modules/Trades/Trades.Infrastructure/Trades.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/Shared.Contracts/Shared.Contracts.csproj" />
+    <Project Path="src/Shared/SharedKernel/SharedKernel.csproj" />
+  </Folder>
+</Solution>
