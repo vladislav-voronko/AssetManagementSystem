@@ -7,44 +7,16 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Identity.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class IdentityDbContext_InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "asset_management");
-
-            migrationBuilder.EnsureSchema(
                 name: "identity");
 
             migrationBuilder.CreateTable(
-                name: "assets",
-                schema: "asset_management",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_assets", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "replenishments",
-                schema: "asset_management",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_replenishments", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "roles",
+                name: "AspNetRoles",
                 schema: "identity",
                 columns: table => new
                 {
@@ -55,23 +27,11 @@ namespace Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_roles", x => x.id);
+                    table.PrimaryKey("pk_asp_net_roles", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "trades",
-                schema: "asset_management",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_trades", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "users",
+                name: "AspNetUsers",
                 schema: "identity",
                 columns: table => new
                 {
@@ -95,11 +55,11 @@ namespace Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_users", x => x.id);
+                    table.PrimaryKey("pk_asp_net_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "role_claims",
+                name: "AspNetRoleClaims",
                 schema: "identity",
                 columns: table => new
                 {
@@ -111,18 +71,18 @@ namespace Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_role_claims", x => x.id);
+                    table.PrimaryKey("pk_asp_net_role_claims", x => x.id);
                     table.ForeignKey(
-                        name: "fk_role_claims_roles_role_id",
+                        name: "fk_asp_net_role_claims_asp_net_roles_role_id",
                         column: x => x.role_id,
                         principalSchema: "identity",
-                        principalTable: "roles",
+                        principalTable: "AspNetRoles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_claims",
+                name: "AspNetUserClaims",
                 schema: "identity",
                 columns: table => new
                 {
@@ -134,18 +94,18 @@ namespace Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_user_claims", x => x.id);
+                    table.PrimaryKey("pk_asp_net_user_claims", x => x.id);
                     table.ForeignKey(
-                        name: "fk_user_claims_users_user_id",
+                        name: "fk_asp_net_user_claims_asp_net_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
-                        principalTable: "users",
+                        principalTable: "AspNetUsers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_logins",
+                name: "AspNetUserLogins",
                 schema: "identity",
                 columns: table => new
                 {
@@ -156,18 +116,18 @@ namespace Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_user_logins", x => new { x.login_provider, x.provider_key });
+                    table.PrimaryKey("pk_asp_net_user_logins", x => new { x.login_provider, x.provider_key });
                     table.ForeignKey(
-                        name: "fk_user_logins_users_user_id",
+                        name: "fk_asp_net_user_logins_asp_net_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
-                        principalTable: "users",
+                        principalTable: "AspNetUsers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_roles",
+                name: "AspNetUserRoles",
                 schema: "identity",
                 columns: table => new
                 {
@@ -176,25 +136,25 @@ namespace Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_user_roles", x => new { x.user_id, x.role_id });
+                    table.PrimaryKey("pk_asp_net_user_roles", x => new { x.user_id, x.role_id });
                     table.ForeignKey(
-                        name: "fk_user_roles_roles_role_id",
+                        name: "fk_asp_net_user_roles_asp_net_roles_role_id",
                         column: x => x.role_id,
                         principalSchema: "identity",
-                        principalTable: "roles",
+                        principalTable: "AspNetRoles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_user_roles_users_user_id",
+                        name: "fk_asp_net_user_roles_asp_net_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
-                        principalTable: "users",
+                        principalTable: "AspNetUsers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_tokens",
+                name: "AspNetUserTokens",
                 schema: "identity",
                 columns: table => new
                 {
@@ -205,102 +165,123 @@ namespace Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_user_tokens", x => new { x.user_id, x.login_provider, x.name });
+                    table.PrimaryKey("pk_asp_net_user_tokens", x => new { x.user_id, x.login_provider, x.name });
                     table.ForeignKey(
-                        name: "fk_user_tokens_users_user_id",
+                        name: "fk_asp_net_user_tokens_asp_net_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
-                        principalTable: "users",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "refresh_tokens",
+                schema: "identity",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    token = table.Column<string>(type: "text", nullable: false),
+                    expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_revoked = table.Column<bool>(type: "boolean", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_refresh_tokens", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_refresh_tokens_users_user_id",
+                        column: x => x.user_id,
+                        principalSchema: "identity",
+                        principalTable: "AspNetUsers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_role_claims_role_id",
+                name: "ix_asp_net_role_claims_role_id",
                 schema: "identity",
-                table: "role_claims",
+                table: "AspNetRoleClaims",
                 column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 schema: "identity",
-                table: "roles",
+                table: "AspNetRoles",
                 column: "normalized_name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_user_claims_user_id",
+                name: "ix_asp_net_user_claims_user_id",
                 schema: "identity",
-                table: "user_claims",
+                table: "AspNetUserClaims",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_user_logins_user_id",
+                name: "ix_asp_net_user_logins_user_id",
                 schema: "identity",
-                table: "user_logins",
+                table: "AspNetUserLogins",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_user_roles_role_id",
+                name: "ix_asp_net_user_roles_role_id",
                 schema: "identity",
-                table: "user_roles",
+                table: "AspNetUserRoles",
                 column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 schema: "identity",
-                table: "users",
+                table: "AspNetUsers",
                 column: "normalized_email");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 schema: "identity",
-                table: "users",
+                table: "AspNetUsers",
                 column: "normalized_user_name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_refresh_tokens_user_id",
+                schema: "identity",
+                table: "refresh_tokens",
+                column: "user_id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "assets",
-                schema: "asset_management");
-
-            migrationBuilder.DropTable(
-                name: "replenishments",
-                schema: "asset_management");
-
-            migrationBuilder.DropTable(
-                name: "role_claims",
+                name: "AspNetRoleClaims",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "trades",
-                schema: "asset_management");
-
-            migrationBuilder.DropTable(
-                name: "user_claims",
+                name: "AspNetUserClaims",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "user_logins",
+                name: "AspNetUserLogins",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "user_roles",
+                name: "AspNetUserRoles",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "user_tokens",
+                name: "AspNetUserTokens",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "roles",
+                name: "refresh_tokens",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "users",
+                name: "AspNetRoles",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers",
                 schema: "identity");
         }
     }

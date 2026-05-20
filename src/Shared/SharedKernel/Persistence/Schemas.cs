@@ -1,9 +1,11 @@
-﻿namespace Identity.Infrastructure.Persistence
+namespace SharedKernel.Persistence
 {
     public static class Schemas
     {
         public const string Identity = "identity";
 
         public const string AssetManagement = "asset_management";
+
+        public const string Infrastructure = "infrastructure";
     }
 }

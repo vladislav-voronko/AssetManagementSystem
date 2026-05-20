@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\Trades\Trades.Domain\Trades.Domain.csproj" />
     <ProjectReference Include="..\Identity.Application\Identity.Application.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Shared\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>
