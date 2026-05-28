@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Assets.Infrastructure.Migrations
+namespace Shared.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class BusinessDbContext_InitialCreate : Migration
@@ -20,7 +20,12 @@ namespace Assets.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false)
+                    symbol = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    type = table.Column<int>(type: "integer", nullable: false),
+                    currency = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,6 +55,13 @@ namespace Assets.Infrastructure.Migrations
                 {
                     table.PrimaryKey("pk_trades", x => x.id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_assets_symbol",
+                schema: "asset_management",
+                table: "assets",
+                column: "symbol",
+                unique: true);
         }
 
         /// <inheritdoc />

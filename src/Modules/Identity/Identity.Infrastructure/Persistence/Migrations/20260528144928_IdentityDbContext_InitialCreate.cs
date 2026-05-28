@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Identity.Infrastructure.Migrations
+namespace Identity.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class IdentityDbContext_InitialCreate : Migration
@@ -16,7 +16,7 @@ namespace Identity.Infrastructure.Migrations
                 name: "identity");
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
+                name: "asp_net_roles",
                 schema: "identity",
                 columns: table => new
                 {
@@ -31,7 +31,7 @@ namespace Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "asp_net_users",
                 schema: "identity",
                 columns: table => new
                 {
@@ -59,7 +59,7 @@ namespace Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
+                name: "asp_net_role_claims",
                 schema: "identity",
                 columns: table => new
                 {
@@ -76,13 +76,13 @@ namespace Identity.Infrastructure.Migrations
                         name: "fk_asp_net_role_claims_asp_net_roles_role_id",
                         column: x => x.role_id,
                         principalSchema: "identity",
-                        principalTable: "AspNetRoles",
+                        principalTable: "asp_net_roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
+                name: "asp_net_user_claims",
                 schema: "identity",
                 columns: table => new
                 {
@@ -99,13 +99,13 @@ namespace Identity.Infrastructure.Migrations
                         name: "fk_asp_net_user_claims_asp_net_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
-                        principalTable: "AspNetUsers",
+                        principalTable: "asp_net_users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
+                name: "asp_net_user_logins",
                 schema: "identity",
                 columns: table => new
                 {
@@ -121,13 +121,13 @@ namespace Identity.Infrastructure.Migrations
                         name: "fk_asp_net_user_logins_asp_net_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
-                        principalTable: "AspNetUsers",
+                        principalTable: "asp_net_users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
+                name: "asp_net_user_roles",
                 schema: "identity",
                 columns: table => new
                 {
@@ -141,20 +141,20 @@ namespace Identity.Infrastructure.Migrations
                         name: "fk_asp_net_user_roles_asp_net_roles_role_id",
                         column: x => x.role_id,
                         principalSchema: "identity",
-                        principalTable: "AspNetRoles",
+                        principalTable: "asp_net_roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_asp_net_user_roles_asp_net_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
-                        principalTable: "AspNetUsers",
+                        principalTable: "asp_net_users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
+                name: "asp_net_user_tokens",
                 schema: "identity",
                 columns: table => new
                 {
@@ -170,7 +170,7 @@ namespace Identity.Infrastructure.Migrations
                         name: "fk_asp_net_user_tokens_asp_net_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
-                        principalTable: "AspNetUsers",
+                        principalTable: "asp_net_users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -193,7 +193,7 @@ namespace Identity.Infrastructure.Migrations
                         name: "fk_refresh_tokens_users_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
-                        principalTable: "AspNetUsers",
+                        principalTable: "asp_net_users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -201,44 +201,44 @@ namespace Identity.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "ix_asp_net_role_claims_role_id",
                 schema: "identity",
-                table: "AspNetRoleClaims",
+                table: "asp_net_role_claims",
                 column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 schema: "identity",
-                table: "AspNetRoles",
+                table: "asp_net_roles",
                 column: "normalized_name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_asp_net_user_claims_user_id",
                 schema: "identity",
-                table: "AspNetUserClaims",
+                table: "asp_net_user_claims",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_asp_net_user_logins_user_id",
                 schema: "identity",
-                table: "AspNetUserLogins",
+                table: "asp_net_user_logins",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_asp_net_user_roles_role_id",
                 schema: "identity",
-                table: "AspNetUserRoles",
+                table: "asp_net_user_roles",
                 column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 schema: "identity",
-                table: "AspNetUsers",
+                table: "asp_net_users",
                 column: "normalized_email");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 schema: "identity",
-                table: "AspNetUsers",
+                table: "asp_net_users",
                 column: "normalized_user_name",
                 unique: true);
 
@@ -253,23 +253,23 @@ namespace Identity.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims",
+                name: "asp_net_role_claims",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims",
+                name: "asp_net_user_claims",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserLogins",
+                name: "asp_net_user_logins",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserRoles",
+                name: "asp_net_user_roles",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserTokens",
+                name: "asp_net_user_tokens",
                 schema: "identity");
 
             migrationBuilder.DropTable(
@@ -277,11 +277,11 @@ namespace Identity.Infrastructure.Migrations
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles",
+                name: "asp_net_roles",
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers",
+                name: "asp_net_users",
                 schema: "identity");
         }
     }

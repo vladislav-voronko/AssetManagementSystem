@@ -218,7 +218,7 @@ public class AuthController : ControllerBase
                     x.Token ==
                     request.RefreshToken);
 
-        if (refreshToken is null)
+        if (refreshToken is null || refreshToken.IsRevoked)
         {
             return Unauthorized();
         }

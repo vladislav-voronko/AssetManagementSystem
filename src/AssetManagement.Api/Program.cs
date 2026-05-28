@@ -1,5 +1,4 @@
 using AssetManagement.Api.Extensions;
-using Assets.Infrastructure.Persistence;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Identity.Application.Common;
@@ -15,7 +14,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using SharedKernel.Db;
-using SharedKernel.Persistence;
 using System.Data;
 using System.Text;
 
@@ -45,18 +43,6 @@ builder.Services.AddSwaggerGen(options =>
             BearerFormat = "JWT"
         });
 });
-
-builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseNpgsql(
-            builder.Configuration.GetConnectionString("DefaultConnection"),
-            x => x.MigrationsHistoryTable("__ef_migrations_history", Schemas.Infrastructure))
-        .UseSnakeCaseNamingConvention());
-
-builder.Services.AddDbContext<BusinessDbContext>(options =>
-    options.UseNpgsql(
-            builder.Configuration.GetConnectionString("DefaultConnection"),
-            x => x.MigrationsHistoryTable("__ef_migrations_history", Schemas.Infrastructure))
-        .UseSnakeCaseNamingConvention());
 
 builder.Services
     .AddFluentValidationAutoValidation();
@@ -143,6 +129,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
@@ -175,7 +163,7 @@ IEnumerable<IDbInitializer> ResolveDbInitialzers(IServiceProvider serviceProvide
     foreach (var contextType in contextTypes.OrderBy(x => x.Name))
     {
         var constructed = dbInitType.MakeGenericType(contextType);
-        var initializer = (IDbInitializer)serviceProvider.GetService(constructed);
+        var initializer = (IDbInitializer)serviceProvider.GetService(constructed)!;
 
         if (initializer == null)
         {

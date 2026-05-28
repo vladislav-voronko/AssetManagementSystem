@@ -1,4 +1,5 @@
 ﻿using Identity.Domain.Entities;
+using Identity.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +18,8 @@ namespace Identity.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.HasDefaultSchema(Schemas.Identity);
+            builder.ApplySnakeCaseIdentityNaming();
         }
     }
 }

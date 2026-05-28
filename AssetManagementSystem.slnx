@@ -34,6 +34,7 @@
   </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/Shared.Contracts/Shared.Contracts.csproj" />
+    <Project Path="src/Shared/Shared.Infrastructure/Shared.Infrastructure.csproj" Id="6127c60b-3ff7-42af-968e-8145f8d7cf5f" />
     <Project Path="src/Shared/SharedKernel/SharedKernel.csproj" />
   </Folder>
 </Solution>

@@ -1,4 +1,4 @@
-﻿using Assets.Infrastructure.Extensions;
+﻿using Shared.Infrastructure.Extensions;
 using Identity.Infrastructure.Extensions;
 
 namespace AssetManagement.Api.Extensions

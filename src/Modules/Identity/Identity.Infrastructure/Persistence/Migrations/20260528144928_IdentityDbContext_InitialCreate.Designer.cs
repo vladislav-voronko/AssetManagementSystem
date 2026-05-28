@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Identity.Infrastructure.Migrations
+namespace Identity.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20260520152245_IdentityDbContext_InitialCreate")]
+    [Migration("20260528144928_IdentityDbContext_InitialCreate")]
     partial class IdentityDbContext_InitialCreate
     {
         /// <inheritdoc />
@@ -112,7 +112,7 @@ namespace Identity.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", "identity");
+                    b.ToTable("asp_net_users", "identity");
                 });
 
             modelBuilder.Entity("Identity.Domain.Entities.RefreshToken", b =>
@@ -177,7 +177,7 @@ namespace Identity.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", "identity");
+                    b.ToTable("asp_net_roles", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -207,7 +207,7 @@ namespace Identity.Infrastructure.Migrations
                     b.HasIndex("RoleId")
                         .HasDatabaseName("ix_asp_net_role_claims_role_id");
 
-                    b.ToTable("AspNetRoleClaims", "identity");
+                    b.ToTable("asp_net_role_claims", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -237,7 +237,7 @@ namespace Identity.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_asp_net_user_claims_user_id");
 
-                    b.ToTable("AspNetUserClaims", "identity");
+                    b.ToTable("asp_net_user_claims", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -264,7 +264,7 @@ namespace Identity.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_asp_net_user_logins_user_id");
 
-                    b.ToTable("AspNetUserLogins", "identity");
+                    b.ToTable("asp_net_user_logins", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -283,7 +283,7 @@ namespace Identity.Infrastructure.Migrations
                     b.HasIndex("RoleId")
                         .HasDatabaseName("ix_asp_net_user_roles_role_id");
 
-                    b.ToTable("AspNetUserRoles", "identity");
+                    b.ToTable("asp_net_user_roles", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -307,7 +307,7 @@ namespace Identity.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name")
                         .HasName("pk_asp_net_user_tokens");
 
-                    b.ToTable("AspNetUserTokens", "identity");
+                    b.ToTable("asp_net_user_tokens", "identity");
                 });
 
             modelBuilder.Entity("Identity.Domain.Entities.RefreshToken", b =>

@@ -1,10 +1,10 @@
-using Assets.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Infrastructure.Persistence;
 using SharedKernel.Db;
 using SharedKernel.Persistence;
 
-namespace Assets.Infrastructure.Extensions
+namespace Shared.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
