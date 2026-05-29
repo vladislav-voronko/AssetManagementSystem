@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Shared.Infrastructure\Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\Assets.Domain\Assets.Domain.csproj" />
   </ItemGroup>
 
@@ -10,11 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
-    <Folder Include="Validators\" />
     <Folder Include="Queries\" />
   </ItemGroup>
 

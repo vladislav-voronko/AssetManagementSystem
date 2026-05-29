@@ -111,9 +111,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 
-builder.Services.AddDbInitializers();
-
-ConfigureServices(builder.Configuration, builder);
+builder.Services.AddModules(builder.Configuration);
 
 var app = builder.Build();
 
@@ -144,12 +142,6 @@ if (builder.Environment.IsDevelopment())
 }
 
 app.Run();
-
-static void ConfigureServices(ConfigurationManager configuration, WebApplicationBuilder builder)
-{
-    var connectionString = configuration.GetConnectionString("DefaultConnection")!;
-    builder.Services.AddServiceLinesDbContexts(connectionString);
-}
 
 IEnumerable<IDbInitializer> ResolveDbInitialzers(IServiceProvider serviceProvider)
 {
