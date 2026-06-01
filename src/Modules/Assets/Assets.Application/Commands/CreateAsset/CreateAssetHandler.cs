@@ -1,6 +1,8 @@
 ﻿using Assets.Domain.Entities;
 using Shared.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Assets.Contracts.Responses;
+using Assets.Application.Mappings;
 
 namespace Assets.Application.Commands.CreateAsset
 {
@@ -13,7 +15,7 @@ namespace Assets.Application.Commands.CreateAsset
             _context = context;
         }
 
-        public async Task<Guid> Handle(CreateAssetCommand command, CancellationToken cancellationToken = default)
+        public async Task<AssetResponse> Handle(CreateAssetCommand command, CancellationToken cancellationToken = default)
         {
             var exists = await _context.Assets.AnyAsync(x => x.Symbol == command.Symbol, cancellationToken);
 
@@ -30,14 +32,15 @@ namespace Assets.Application.Commands.CreateAsset
                 Type = command.Type,
                 Currency = command.Currency,
                 IsActive = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ModifiedAt = DateTime.UtcNow
             };
 
             _context.Assets.Add(asset);
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return asset.Id;
+            return asset.ToResponse();
         }
     }
 }

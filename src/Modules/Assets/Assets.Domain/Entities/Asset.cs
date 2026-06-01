@@ -11,5 +11,6 @@ namespace Assets.Domain.Entities
         public string Currency { get; set; } = null!;
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
     }
 }

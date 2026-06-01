@@ -44,6 +44,10 @@ namespace Shared.Infrastructure.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
 
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_at");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)

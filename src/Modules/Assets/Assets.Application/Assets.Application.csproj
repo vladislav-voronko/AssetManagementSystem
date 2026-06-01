@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\Shared.Infrastructure\Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\Assets.Contracts\Assets.Contracts.csproj" />
     <ProjectReference Include="..\Assets.Domain\Assets.Domain.csproj" />
   </ItemGroup>
 
@@ -12,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="Queries\" />
   </ItemGroup>
 
   <PropertyGroup>
