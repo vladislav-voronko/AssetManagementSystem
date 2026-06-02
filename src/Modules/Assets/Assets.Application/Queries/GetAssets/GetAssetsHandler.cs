@@ -1,4 +1,4 @@
-﻿using Assets.Application.Mappings;
+﻿using Assets.Application.Projections;
 using Assets.Contracts.Responses;
 using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.Persistence;
@@ -16,12 +16,11 @@ namespace Assets.Application.Queries.GetAssets
 
         public async Task<List<AssetResponse>> Handle(GetAssetsQuery query, CancellationToken cancellationToken)
         {
-            var assets = await _context.Assets
+            return await _context.Assets
                 .AsNoTracking()
                 .OrderBy(a => a.Symbol)
-                .Select(a => a.ToResponse())
+                .Select(AssetProjection.ToResponse)
                 .ToListAsync(cancellationToken);
-            return assets;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Assets.Application;
+using Trades.Application;
 using Identity.Infrastructure.Extensions;
 using Shared.Infrastructure.Extensions;
 
@@ -11,6 +12,7 @@ namespace AssetManagement.Api.Extensions
             services.AddInfrastructure(configuration);
 
             services.AddAssetsApplication();
+            services.AddTradesApplication();
 
             return services;
         }

@@ -94,10 +94,49 @@ namespace Shared.Infrastructure.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<Guid>("AssetId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("asset_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("ExecutedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("executed_at");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric")
+                        .HasColumnName("price");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric")
+                        .HasColumnName("quantity");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
                     b.HasKey("Id")
                         .HasName("pk_trades");
 
+                    b.HasIndex("AssetId")
+                        .HasDatabaseName("ix_trades_asset_id");
+
                     b.ToTable("trades", "asset_management");
+                });
+
+            modelBuilder.Entity("Trades.Domain.Entities.Trade", b =>
+                {
+                    b.HasOne("Assets.Domain.Entities.Asset", "Asset")
+                        .WithMany()
+                        .HasForeignKey("AssetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_trades_assets_asset_id");
+
+                    b.Navigation("Asset");
                 });
 #pragma warning restore 612, 618
         }

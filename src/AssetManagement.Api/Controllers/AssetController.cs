@@ -4,15 +4,17 @@ using Assets.Application.Commands.UpdateAsset;
 using Assets.Application.Queries.GetAssetById;
 using Assets.Application.Queries.GetAssets;
 using Assets.Contracts.Requests;
+using Assets.Contracts.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Trades.Contracts.Responses;
 
 namespace AssetManagement.Api.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/assets")]
-    public class AssetsController : ControllerBase
+    public class AssetController : ControllerBase
     {
         private readonly GetAssetsHandler _getAssetsHandler;
         private readonly GetAssetByIdHandler _getAssetByIdHandler;
@@ -21,7 +23,7 @@ namespace AssetManagement.Api.Controllers
         private readonly DeleteAssetHandler _deleteAssetHandler;
 
 
-        public AssetsController(GetAssetsHandler getAssetsHandler,
+        public AssetController(GetAssetsHandler getAssetsHandler,
             GetAssetByIdHandler getAssetByIdHandler,
             CreateAssetHandler createAssetHandler,
             UpdateAssetHandler updateAssetHandler,
@@ -35,6 +37,8 @@ namespace AssetManagement.Api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(List<AssetResponse>), 200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var assets = await _getAssetsHandler.Handle(new GetAssetsQuery(), cancellationToken);
@@ -42,6 +46,8 @@ namespace AssetManagement.Api.Controllers
         }
 
         [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(AssetResponse), 200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var asset = await _getAssetByIdHandler.Handle(new GetAssetByIdQuery(id), cancellationToken);
@@ -52,6 +58,8 @@ namespace AssetManagement.Api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(AssetResponse), 201)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Create([FromBody] CreateAssetRequest request, CancellationToken cancellationToken)
         {
             var command = new CreateAssetCommand
@@ -68,6 +76,8 @@ namespace AssetManagement.Api.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ProducesResponseType(typeof(AssetResponse), 200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateAssetRequest request, CancellationToken cancellationToken)
         {
             var command = new UpdateAssetCommand
@@ -87,6 +97,8 @@ namespace AssetManagement.Api.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var command = new DeleteAssetCommand { Id = id };
