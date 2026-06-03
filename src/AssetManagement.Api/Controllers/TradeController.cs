@@ -31,7 +31,10 @@ namespace AssetManagement.Api.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var trades = await _getTradesHandler.Handle(new GetTradesQuery(), cancellationToken);
-            return Ok(trades);
+
+            return trades is null
+                ? NotFound()
+                : Ok(trades);
         }
 
         [HttpGet("{id:guid}")]
@@ -49,7 +52,6 @@ namespace AssetManagement.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(TradeResponse), 201)]
         [ProducesResponseType(404)]
-
         public async Task<IActionResult> Create([FromBody]CreateTradeRequest request, CancellationToken cancellationToken)
         {
             var command = new CreateTradeCommand

@@ -7,7 +7,6 @@ using Assets.Contracts.Requests;
 using Assets.Contracts.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trades.Contracts.Responses;
 
 namespace AssetManagement.Api.Controllers
 {
@@ -42,7 +41,9 @@ namespace AssetManagement.Api.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var assets = await _getAssetsHandler.Handle(new GetAssetsQuery(), cancellationToken);
-            return Ok(assets);
+            return assets is null
+                ? NotFound()
+                : Ok(assets);
         }
 
         [HttpGet("{id:guid}")]
@@ -89,11 +90,11 @@ namespace AssetManagement.Api.Controllers
                 Currency = request.Currency
             };
 
-            var result = await _updateAssetHandler.Handle(command, cancellationToken);
+            var asset = await _updateAssetHandler.Handle(command, cancellationToken);
 
-            return result is null
+            return asset is null
                 ? NotFound()
-                : Ok(result);
+                : Ok(asset);
         }
 
         [HttpDelete("{id:guid}")]
@@ -103,9 +104,9 @@ namespace AssetManagement.Api.Controllers
         {
             var command = new DeleteAssetCommand { Id = id };
 
-            var result = await _deleteAssetHandler.Handle(command, cancellationToken);
+            var asset = await _deleteAssetHandler.Handle(command, cancellationToken);
 
-            return result
+            return asset
                 ? NoContent()
                 : NotFound();
         }

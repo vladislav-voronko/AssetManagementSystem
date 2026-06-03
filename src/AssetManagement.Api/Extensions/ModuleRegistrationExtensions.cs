@@ -1,6 +1,7 @@
 ﻿using Assets.Application;
 using Trades.Application;
 using Identity.Infrastructure.Extensions;
+using Replenishments.Application;
 using Shared.Infrastructure.Extensions;
 
 namespace AssetManagement.Api.Extensions
@@ -13,6 +14,7 @@ namespace AssetManagement.Api.Extensions
 
             services.AddAssetsApplication();
             services.AddTradesApplication();
+            services.AddReplenishmentsApplication();
 
             return services;
         }
