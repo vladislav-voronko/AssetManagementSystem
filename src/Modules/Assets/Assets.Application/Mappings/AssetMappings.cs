@@ -13,7 +13,6 @@ namespace Assets.Application.Mappings
                 Symbol = asset.Symbol,
                 Name = asset.Name,
                 Type = asset.Type,
-                Currency = asset.Currency,
                 IsActive = asset.IsActive
             };
         }

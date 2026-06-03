@@ -18,10 +18,6 @@ namespace Shared.Infrastructure.Persistence.Configurations
                 .HasMaxLength(200)
                 .IsRequired();
 
-            builder.Property(x => x.Currency)
-                .HasMaxLength(10)
-                .IsRequired();
-
             builder.HasIndex(x => x.Symbol)
                 .IsUnique();
         }

@@ -13,7 +13,6 @@ namespace Assets.Application.Projections
                 Name = asset.Name,
                 Symbol = asset.Symbol,
                 Type = asset.Type,
-                Currency = asset.Currency,
                 IsActive = asset.IsActive
             };
     }

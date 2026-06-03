@@ -30,7 +30,6 @@ namespace Assets.Application.Commands.CreateAsset
                 Symbol = command.Symbol,
                 Name = command.Name,
                 Type = command.Type,
-                Currency = command.Currency,
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow,
                 ModifiedAt = DateTime.UtcNow

@@ -25,7 +25,6 @@ namespace Assets.Application.Commands.UpdateAsset
 
             asset.Name = command.Name;
             asset.Symbol = command.Symbol;
-            asset.Currency = command.Currency;
             asset.Type = command.Type;
             asset.ModifiedAt = DateTime.UtcNow;
 

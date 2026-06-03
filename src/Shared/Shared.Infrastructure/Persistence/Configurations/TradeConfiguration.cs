@@ -22,6 +22,10 @@ namespace Shared.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Quantity)
                 .IsRequired();
 
+            builder.Property(x => x.Currency)
+                .HasMaxLength(10)
+                .IsRequired();
+
             builder.Property(x => x.Type)
                 .IsRequired();
 

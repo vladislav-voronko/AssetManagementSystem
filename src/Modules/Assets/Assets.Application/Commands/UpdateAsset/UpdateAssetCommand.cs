@@ -8,6 +8,5 @@ namespace Assets.Application.Commands.UpdateAsset
         public string Symbol { get; set; } = null!;
         public string Name { get; set; } = null!;
         public AssetType Type { get; set; }
-        public string Currency { get; set; } = null!;
     }
 }

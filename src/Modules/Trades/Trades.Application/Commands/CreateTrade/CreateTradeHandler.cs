@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.Persistence;
-using Trades.Application.Mappings;
 using Trades.Application.Projections;
 using Trades.Contracts.Responses;
 using Trades.Domain.Entities;
@@ -32,6 +31,7 @@ namespace Trades.Application.Commands.CreateTrade
                 Type = command.Type,
                 Quantity = command.Quantity,
                 Price = command.Price,
+                Currency = command.Currency,
                 ExecutedAt = command.ExecutedAt,
                 CreatedAt = DateTime.UtcNow
             };

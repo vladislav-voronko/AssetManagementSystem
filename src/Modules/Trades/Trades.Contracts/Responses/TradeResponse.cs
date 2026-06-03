@@ -10,6 +10,7 @@ namespace Trades.Contracts.Responses
         public TradeType Type { get; init; }
         public decimal Quantity { get; init; }
         public decimal Price { get; init; }
+        public string Currency { get; init; } = null!;
         public DateTime ExecutedAt { get; init; }
         public AssetResponse Asset { get; init; } = null!;
     }

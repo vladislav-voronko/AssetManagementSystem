@@ -13,10 +13,6 @@ namespace Assets.Application.Commands.CreateAsset
             RuleFor(x => x.Name)
                 .NotEmpty()
                 .MaximumLength(200);
-
-            RuleFor(x => x.Currency)
-                .NotEmpty()
-                .MaximumLength(10);
         }
     }
 }

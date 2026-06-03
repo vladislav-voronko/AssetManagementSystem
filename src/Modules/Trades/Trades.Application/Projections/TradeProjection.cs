@@ -15,6 +15,7 @@ namespace Trades.Application.Projections
                 Type = trade.Type,
                 Quantity = trade.Quantity,
                 Price = trade.Price,
+                Currency = trade.Currency,
                 ExecutedAt = trade.ExecutedAt,
                 Asset = new AssetResponse
                 {
@@ -22,7 +23,6 @@ namespace Trades.Application.Projections
                     Name = trade.Asset.Name,
                     Symbol = trade.Asset.Symbol,
                     Type = trade.Asset.Type,
-                    Currency = trade.Asset.Currency,
                     IsActive = trade.Asset.IsActive
                 }
             };

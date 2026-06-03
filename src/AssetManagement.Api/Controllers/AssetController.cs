@@ -68,7 +68,6 @@ namespace AssetManagement.Api.Controllers
                 Symbol = request.Symbol,
                 Name = request.Name,
                 Type = request.Type,
-                Currency = request.Currency
             };
 
             var asset = await _createAssetHandler.Handle(command, cancellationToken);
@@ -87,7 +86,6 @@ namespace AssetManagement.Api.Controllers
                 Symbol = request.Symbol,
                 Name = request.Name,
                 Type = request.Type,
-                Currency = request.Currency
             };
 
             var asset = await _updateAssetHandler.Handle(command, cancellationToken);

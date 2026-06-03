@@ -18,6 +18,9 @@ namespace Trades.Application.Commands.CreateTrade
             RuleFor(x => x.Type)
                 .IsInEnum()
                 .WithMessage("Invalid trade type.");
+            RuleFor(x => x.Currency)
+                .NotEmpty()
+                .MaximumLength(10);
         }
     }
 }

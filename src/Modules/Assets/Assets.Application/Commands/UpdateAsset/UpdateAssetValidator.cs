@@ -14,10 +14,6 @@ namespace Assets.Application.Commands.UpdateAsset
                 .NotEmpty()
                 .MaximumLength(200);
 
-            RuleFor(x => x.Currency)
-                .NotEmpty()
-                .MaximumLength(10);
-
             RuleFor(x => x.Type)
                 .IsInEnum();
         }
