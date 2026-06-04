@@ -4,6 +4,8 @@ using Trades.Application.Interfaces;
 using Trades.Application.Queries.GetTradeById;
 using Trades.Application.Queries.GetTrades;
 using Trades.Application.Queries.Portfolio.GetCashBalance;
+using Trades.Application.Queries.Portfolio.GetPortfolioSummary;
+using Trades.Application.Queries.Portfolio.GetPositions;
 using Trades.Application.Services;
 
 namespace Trades.Application
@@ -19,6 +21,10 @@ namespace Trades.Application
 
             services.AddScoped<GetCashBalanceHandler>();
             services.AddScoped<ICashBalanceService, CashBalanceService>();
+
+            services.AddScoped<IPositionService, PositionService>();
+            services.AddScoped<GetPositionsHandler>();
+            services.AddScoped<GetPortfolioSummaryHandler>();
 
             return services;
         }
