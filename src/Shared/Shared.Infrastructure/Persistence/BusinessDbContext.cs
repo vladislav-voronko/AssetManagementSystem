@@ -1,7 +1,6 @@
 ﻿using Assets.Domain.Entities;
 using Trades.Domain.Entities;
 using Replenishments.Domain.Entities;
-using SharedKernel.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace Shared.Infrastructure.Persistence

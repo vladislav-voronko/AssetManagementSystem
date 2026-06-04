@@ -3,7 +3,7 @@ using Identity.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SharedKernel.Persistence;
+using Shared.Infrastructure.Persistence;
 
 namespace Identity.Infrastructure.Persistence
 {

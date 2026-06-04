@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using SharedKernel.Db;
+using Shared.Infrastructure.Db;
 using System.Data;
 using System.Text;
 
@@ -44,14 +44,11 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
-builder.Services
-    .AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationAutoValidation();
 
-builder.Services.AddValidatorsFromAssemblyContaining<
-    RegisterRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
 
-builder.Services
-    .AddIdentity<ApplicationUser, IdentityRole<Guid>>(
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
         options =>
         {
             options.User.RequireUniqueEmail = true;
@@ -87,15 +84,10 @@ builder.Services
             new TokenValidationParameters
             {
                 ValidateIssuer = true,
-
                 ValidateAudience = true,
-
                 ValidateLifetime = true,
-
                 ValidateIssuerSigningKey = true,
-
                 ValidIssuer = jwtSettings!.Issuer,
-
                 ValidAudience = jwtSettings.Audience,
 
                 IssuerSigningKey =
@@ -117,11 +109,9 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    await ApplicationInitialization
-        .InitializeDatabaseAsync(app.Services);
+    await ApplicationInitialization.InitializeDatabaseAsync(app.Services);
 
     app.UseSwagger();
-
     app.UseSwaggerUI();
 }
 
@@ -147,9 +137,9 @@ IEnumerable<IDbInitializer> ResolveDbInitialzers(IServiceProvider serviceProvide
 {
     var initializers = new List<IDbInitializer>();
     var contextTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetExportedTypes())
-        .Where(myType => myType.IsClass &&
-        !myType.IsAbstract &&
-        myType.IsSubclassOf(typeof(DbContext)));
+        .Where(myType => myType.IsClass 
+        && !myType.IsAbstract 
+        && myType.IsSubclassOf(typeof(DbContext)));
     var dbInitType = typeof(IDbInitializer<>);
 
     foreach (var contextType in contextTypes.OrderBy(x => x.Name))

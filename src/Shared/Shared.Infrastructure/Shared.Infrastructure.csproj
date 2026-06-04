@@ -20,7 +20,6 @@
     <ProjectReference Include="..\..\Modules\Assets\Assets.Domain\Assets.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\Replenishments\Replenishments.Domain\Replenishments.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\Trades\Trades.Domain\Trades.Domain.csproj" />
-    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

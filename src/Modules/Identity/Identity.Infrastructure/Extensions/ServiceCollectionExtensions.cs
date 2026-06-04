@@ -2,8 +2,8 @@ using Identity.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Db;
-using SharedKernel.Persistence;
+using Shared.Infrastructure.Db;
+using Shared.Infrastructure.Persistence;
 
 namespace Identity.Infrastructure.Extensions
 {

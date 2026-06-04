@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Infrastructure.Db;
 using Shared.Infrastructure.Persistence;
-using SharedKernel.Db;
-using SharedKernel.Persistence;
 
 namespace Shared.Infrastructure.Extensions
 {

@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace SharedKernel.Db
+namespace Shared.Infrastructure.Db
 {
     public interface IDbInitializer
     {

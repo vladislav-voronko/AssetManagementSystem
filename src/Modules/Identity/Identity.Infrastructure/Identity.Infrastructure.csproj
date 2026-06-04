@@ -17,12 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Shared.Infrastructure\Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Assets\Assets.Domain\Assets.Domain.csproj" />
     <ProjectReference Include="..\..\Replenishments\Replenishments.Domain\Replenishments.Domain.csproj" />
     <ProjectReference Include="..\..\Trades\Trades.Domain\Trades.Domain.csproj" />
     <ProjectReference Include="..\Identity.Application\Identity.Application.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Shared\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>
