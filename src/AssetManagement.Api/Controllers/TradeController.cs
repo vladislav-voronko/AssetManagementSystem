@@ -28,9 +28,9 @@ namespace AssetManagement.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<TradeResponse>), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll([FromQuery] GetTradesQuery query, CancellationToken cancellationToken)
         {
-            var trades = await _getTradesHandler.Handle(new GetTradesQuery(), cancellationToken);
+            var trades = await _getTradesHandler.Handle(query, cancellationToken);
 
             return trades is null
                 ? NotFound()
@@ -60,6 +60,7 @@ namespace AssetManagement.Api.Controllers
                 Type = request.Type,
                 Quantity = request.Quantity,
                 Price = request.Price,
+                Currency = request.Currency,
                 ExecutedAt = request.ExecutedAt
             };
 

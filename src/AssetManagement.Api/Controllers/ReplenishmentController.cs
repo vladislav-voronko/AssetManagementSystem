@@ -29,9 +29,9 @@ namespace AssetManagement.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<ReplenishmentResponse>), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll([FromQuery] GetReplenishmentsQuery query, CancellationToken cancellationToken)
         {
-            var replenishments = await _getReplenishmentsHandler.Handle(new GetReplenishmentsQuery(), cancellationToken);
+            var replenishments = await _getReplenishmentsHandler.Handle(query, cancellationToken);
 
             return replenishments is null
                 ? NotFound()

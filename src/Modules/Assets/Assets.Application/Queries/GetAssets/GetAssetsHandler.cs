@@ -1,5 +1,7 @@
-﻿using Assets.Application.Projections;
+﻿using Assets.Application.Extensions;
+using Assets.Application.Projections;
 using Assets.Contracts.Responses;
+using BuildingBlocks.Application.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.Persistence;
 
@@ -18,7 +20,9 @@ namespace Assets.Application.Queries.GetAssets
         {
             return await _context.Assets
                 .AsNoTracking()
+                .ApplyFilters(query)
                 .OrderBy(a => a.Symbol)
+                .ApplyPaging(query.Page, query.PageSize)
                 .Select(AssetProjection.ToResponse)
                 .ToListAsync(cancellationToken);
         }

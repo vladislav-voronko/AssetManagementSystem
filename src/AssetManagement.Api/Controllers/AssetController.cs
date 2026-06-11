@@ -38,9 +38,9 @@ namespace AssetManagement.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<AssetResponse>), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll([FromQuery] GetAssetsQuery query, CancellationToken cancellationToken)
         {
-            var assets = await _getAssetsHandler.Handle(new GetAssetsQuery(), cancellationToken);
+            var assets = await _getAssetsHandler.Handle(query, cancellationToken);
             return assets is null
                 ? NotFound()
                 : Ok(assets);

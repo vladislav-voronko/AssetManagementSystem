@@ -1,8 +1,9 @@
 ﻿using Assets.Domain.Enums;
+using BuildingBlocks.Domain.Abstractions;
 
 namespace Assets.Domain.Entities
 {
-    public class Asset
+    public class Asset : IAuditableEntity
     {
         public Guid Id { get; set; }
         public string Symbol { get; set; } = null!;

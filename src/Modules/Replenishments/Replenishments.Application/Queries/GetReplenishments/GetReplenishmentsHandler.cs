@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BuildingBlocks.Application.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Replenishments.Application.Extensions;
 using Replenishments.Application.Projections;
 using Replenishments.Contracts.Responses;
 using Shared.Infrastructure.Persistence;
@@ -18,7 +20,9 @@ namespace Replenishments.Application.Queries.GetReplenishments
         {
             return await _context.Replenishments
                 .AsNoTracking()
+                .ApplyFilters(query)
                 .OrderByDescending(r => r.CreatedAt)
+                .ApplyPaging(query.Page, query.PageSize)
                 .Select(ReplenishmentProjection.ToResponse)
                 .ToListAsync(cancellationToken);
         }
