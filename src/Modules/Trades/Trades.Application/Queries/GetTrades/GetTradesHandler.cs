@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Application.Extensions;
+using BuildingBlocks.Application.Pagination;
 using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.Persistence;
 using Trades.Application.Extensions;
@@ -15,15 +16,14 @@ namespace Trades.Application.Queries.GetTrades
             _context = context;
         }
 
-        public async Task<List<TradeResponse>> Handle(GetTradesQuery query, CancellationToken cancellationToken)
+        public async Task<PagedResult<TradeResponse>> Handle(GetTradesQuery query, CancellationToken cancellationToken)
         {
             return await _context.Trades
                 .AsNoTracking()
                 .ApplyFilters(query)
                 .OrderByDescending(t => t.ExecutedAt)
-                .ApplyPaging(query.Page, query.PageSize)
                 .Select(TradeProjection.ToResponse)
-                .ToListAsync(cancellationToken);
+                .ToPagedResultAsync(query, cancellationToken);
         }
     }
 }

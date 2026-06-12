@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BuildingBlocks.Application.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Replenishments.Application.Commands.CreateReplenishment;
 using Replenishments.Application.Queries.GetReplenishmentById;
@@ -27,7 +28,7 @@ namespace AssetManagement.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<ReplenishmentResponse>), 200)]
+        [ProducesResponseType(typeof(PagedResult<ReplenishmentResponse>), 200)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetAll([FromQuery] GetReplenishmentsQuery query, CancellationToken cancellationToken)
         {

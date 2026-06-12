@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Application.Extensions;
+using BuildingBlocks.Application.Pagination;
 using Microsoft.EntityFrameworkCore;
 using Replenishments.Application.Extensions;
 using Replenishments.Application.Projections;
@@ -16,15 +17,14 @@ namespace Replenishments.Application.Queries.GetReplenishments
             _context = context;
         }
 
-        public async Task<List<ReplenishmentResponse>> Handle(GetReplenishmentsQuery query, CancellationToken cancellationToken)
+        public async Task<PagedResult<ReplenishmentResponse>> Handle(GetReplenishmentsQuery query, CancellationToken cancellationToken)
         {
             return await _context.Replenishments
                 .AsNoTracking()
                 .ApplyFilters(query)
                 .OrderByDescending(r => r.CreatedAt)
-                .ApplyPaging(query.Page, query.PageSize)
                 .Select(ReplenishmentProjection.ToResponse)
-                .ToListAsync(cancellationToken);
+                .ToPagedResultAsync(query, cancellationToken);
         }
     }
 }

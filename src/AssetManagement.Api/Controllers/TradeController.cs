@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BuildingBlocks.Application.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Trades.Application.Commands.CreateTrade;
 using Trades.Application.Queries.GetTradeById;
@@ -26,7 +27,7 @@ namespace AssetManagement.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<TradeResponse>), 200)]
+        [ProducesResponseType(typeof(PagedResult<TradeResponse>), 200)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetAll([FromQuery] GetTradesQuery query, CancellationToken cancellationToken)
         {

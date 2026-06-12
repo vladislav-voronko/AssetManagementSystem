@@ -5,6 +5,7 @@ using Assets.Application.Queries.GetAssetById;
 using Assets.Application.Queries.GetAssets;
 using Assets.Contracts.Requests;
 using Assets.Contracts.Responses;
+using BuildingBlocks.Application.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +37,7 @@ namespace AssetManagement.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<AssetResponse>), 200)]
+        [ProducesResponseType(typeof(PagedResult<AssetResponse>), 200)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetAll([FromQuery] GetAssetsQuery query, CancellationToken cancellationToken)
         {
