@@ -1,3 +1,17 @@
+export interface Asset {
+  id: string;
+  symbol: string;
+  name: string;
+  type: AssetType;
+  isActive: boolean;
+}
+
+export interface CreateAssetRequest {
+  symbol: string;
+  name: string;
+  type: AssetType;
+}
+
 export const AssetType = {
     Stock: 1,
     Crypto: 2,

@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from "react";
-import ReplenishmentList from "../components/Replenishments/ReplenishmentList";
-import { getReplenishments } from "../components/Replenishments/ReplenishmentApi";
-import type { IReplenishmentItem } from "../components/Replenishments/ReplenishmentItem";
+import ReplenishmentList from "../../entities/Replenishment/ui/ReplenishmentList";
+import { getReplenishments } from "../../entities/Replenishment/model/replenishmentApi";
+import type { IReplenishmentItem } from "../../entities/Replenishment/ui/ReplenishmentItem";
 
 const Replenishments = () => {
     

@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from "react";
-import TradeList from "../components/Trade/TradeList";
-import type { ITradeItem } from "../components/Trade/TradeItem";
-import { getTrades } from "../components/Trade/TradeApi";
+import TradeList from "../../entities/Trade/ui/TradeList";
+import type { ITradeItem } from "../../entities/Trade/ui/TradeItem";
+import { getTrades } from "../../entities/Trade/model/tradeApi";
 
 const Trades = () => {
     
