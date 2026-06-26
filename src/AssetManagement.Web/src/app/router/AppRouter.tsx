@@ -1,6 +1,6 @@
-import Assets from "../pages/Assets";
-import Trades from "../pages/Trades";
-import Replenishments from "../pages/Replenishments";
+import Assets from "../../pages/AssetsPage/AssetsPage";
+import Trades from "../../pages/TradesPage/TradesPage";
+import Replenishments from "../../pages/ReplenishmentsPage/ReplenishmentsPage";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import React from 'react';
 
