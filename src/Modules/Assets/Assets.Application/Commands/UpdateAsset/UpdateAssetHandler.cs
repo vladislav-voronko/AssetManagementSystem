@@ -26,6 +26,7 @@ namespace Assets.Application.Commands.UpdateAsset
             asset.Name = command.Name;
             asset.Symbol = command.Symbol;
             asset.Type = command.Type;
+            asset.IsActive = command.IsActive;
             asset.ModifiedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync(cancellationToken);
