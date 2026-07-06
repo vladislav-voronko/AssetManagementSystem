@@ -1,5 +1,5 @@
 ﻿using Assets.Application.Commands.CreateAsset;
-using Assets.Application.Commands.DeleteAsset;
+using Assets.Application.Commands.SwitchAssetStatus;
 using Assets.Application.Commands.UpdateAsset;
 using Assets.Application.Queries.GetAssetById;
 using Assets.Application.Queries.GetAssets;
@@ -20,20 +20,20 @@ namespace AssetManagement.Api.Controllers
         private readonly GetAssetByIdHandler _getAssetByIdHandler;
         private readonly CreateAssetHandler _createAssetHandler;
         private readonly UpdateAssetHandler _updateAssetHandler;
-        private readonly DeleteAssetHandler _deleteAssetHandler;
+        private readonly SwitchAssetStatusHandler _switchAssetStatusHandler;
 
 
         public AssetController(GetAssetsHandler getAssetsHandler,
             GetAssetByIdHandler getAssetByIdHandler,
             CreateAssetHandler createAssetHandler,
             UpdateAssetHandler updateAssetHandler,
-            DeleteAssetHandler deleteAssetHandler)
+            SwitchAssetStatusHandler switchAssetStatusHandler)
         {
             _getAssetsHandler = getAssetsHandler;
             _getAssetByIdHandler = getAssetByIdHandler;
             _createAssetHandler = createAssetHandler;
             _updateAssetHandler = updateAssetHandler;
-            _deleteAssetHandler = deleteAssetHandler;
+            _switchAssetStatusHandler = switchAssetStatusHandler;
         }
 
         [HttpGet]
@@ -97,18 +97,18 @@ namespace AssetManagement.Api.Controllers
                 : Ok(asset);
         }
 
-        [HttpDelete("{id:guid}")]
-        [ProducesResponseType(204)]
+        [HttpPatch("{id:guid}")]
+        [ProducesResponseType(typeof(AssetResponse), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> SwitchStatus([FromRoute] Guid id, [FromBody] bool assetStatus, CancellationToken cancellationToken)
         {
-            var command = new DeleteAssetCommand { Id = id };
+            var command = new SwitchAssetStatusCommand { Id = id, IsActive = assetStatus };
 
-            var asset = await _deleteAssetHandler.Handle(command, cancellationToken);
+            var asset = await _switchAssetStatusHandler.Handle(command, cancellationToken);
 
-            return asset
-                ? NoContent()
-                : NotFound();
+            return asset is null
+                ? NotFound()
+                : Ok(asset);
         }
     }
 }

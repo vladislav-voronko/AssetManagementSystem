@@ -1,5 +1,5 @@
 ﻿using Assets.Application.Commands.CreateAsset;
-using Assets.Application.Commands.DeleteAsset;
+using Assets.Application.Commands.SwitchAssetStatus;
 using Assets.Application.Commands.UpdateAsset;
 using Assets.Application.Queries.GetAssetById;
 using Assets.Application.Queries.GetAssets;
@@ -13,7 +13,7 @@ namespace Assets.Application
         {
             services.AddScoped<CreateAssetHandler>();
             services.AddScoped<UpdateAssetHandler>();
-            services.AddScoped<DeleteAssetHandler>();
+            services.AddScoped<SwitchAssetStatusHandler>();
 
             services.AddScoped<GetAssetsHandler>();
             services.AddScoped<GetAssetByIdHandler>();
