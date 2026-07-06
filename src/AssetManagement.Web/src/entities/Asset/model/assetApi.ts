@@ -16,3 +16,8 @@ export const editAsset = async (id: string, data: EditAssetRequest) => {
     const response = await api.put<Asset>(`/assets/${id}`, data);
     return response.data;
 };
+
+export const switchAssetStatus = async (id: string, status: boolean) => {
+    const response = await api.patch<Asset>(`/assets/${id}`, status);
+    return response.data;
+};

@@ -6,13 +6,18 @@ import type { Asset } from "../model/assetTypes";
 interface AssetListProps {
   assets: Asset[];
   onSelectAsset?: (asset: Asset) => void;
+  onStatusAssetSwitch: (asset: Asset) => void;
 }
 
-const AssetList: FC<AssetListProps> = ({ assets, onSelectAsset }) => (
+const AssetList: FC<AssetListProps> = ({ assets, onSelectAsset, onStatusAssetSwitch }) => (
   <Paper elevation={2} sx={{ width: "100%", overflow: "hidden" }}>
     <List>
       {assets.map((asset) => (
-        <AssetItem asset={asset} key={asset.id} onSelectAsset={onSelectAsset} />
+        <AssetItem
+          asset={asset}
+          key={asset.id}
+          onSelectAsset={onSelectAsset}
+          onStatusSwitch={onStatusAssetSwitch} />
       ))}
     </List>
   </Paper>

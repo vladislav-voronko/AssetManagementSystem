@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { AssetTypeName, type Asset } from "../model/assetTypes";
-import { List, ListItemText, Paper } from "@mui/material";
+import { List, ListItemText } from "@mui/material";
 
 interface AssetDetailsViewProps {
     asset: Asset | null;

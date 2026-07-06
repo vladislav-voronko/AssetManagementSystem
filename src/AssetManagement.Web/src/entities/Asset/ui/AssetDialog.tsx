@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle, FormControlLabel, MenuItem, Switch, TextField } from "@mui/material";
+import { Button, Dialog, DialogContent, DialogTitle, MenuItem, TextField } from "@mui/material";
 import { useEffect, useState, type FC } from "react";
 import { AssetType, AssetTypeName, type Asset, type CreateAssetRequest, type EditAssetRequest } from "../model/assetTypes";
 
@@ -18,7 +18,6 @@ const AssetDialog: FC<AssetDialogProps> = ({ open, onClose, onSubmit, submitting
     const [symbol, setSymbol] = useState("");
     const [name, setName] = useState("");
     const [type, setType] = useState<AssetType | "">("");
-    const [isActive, setIsActive] = useState(false);
 
     const assetTypeValues = Object.values(AssetType) as AssetType[];
 
@@ -28,9 +27,9 @@ const AssetDialog: FC<AssetDialogProps> = ({ open, onClose, onSubmit, submitting
             return;
         }
         if (isEditMode) {
-            await onSubmit({ symbol, name, type: type as AssetType, isActive });
+            await onSubmit({ symbol, name, type: type as AssetType } as EditAssetRequest);
         } else {
-            await onSubmit({ symbol, name, type: type as AssetType });
+            await onSubmit({ symbol, name, type: type as AssetType } as CreateAssetRequest);
         }
         onClose();
     };
@@ -40,12 +39,10 @@ const AssetDialog: FC<AssetDialogProps> = ({ open, onClose, onSubmit, submitting
             setSymbol(asset.symbol);
             setName(asset.name);
             setType(asset.type);
-            setIsActive(asset.isActive);
         } else {
             setSymbol("");
             setName("");
             setType("");
-            setIsActive(false);
         }
     }, [asset, open]);
 
@@ -100,17 +97,6 @@ const AssetDialog: FC<AssetDialogProps> = ({ open, onClose, onSubmit, submitting
                             </MenuItem>
                         ))}
                     </TextField>
-                    {isEditMode && (
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={isActive}
-                                    onChange={(e) => setIsActive(e.target.checked)}
-                                />
-                            }
-                            label="Active"
-                        />
-                    )}
                     <Button
                         type="submit"
                         variant="contained"

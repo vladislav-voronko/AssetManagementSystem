@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import AssetList from "../../entities/Asset/ui/AssetList";
-import { createAsset, editAsset, getAssets } from "../../entities/Asset/model/assetApi";
+import { createAsset, editAsset, getAssets, switchAssetStatus } from "../../entities/Asset/model/assetApi";
 import type { Asset, CreateAssetRequest, EditAssetRequest } from "../../entities/Asset/model/assetTypes";
 import { Alert, Button, CircularProgress, Container, Typography } from "@mui/material";
 import axios from "axios";
 import AssetDialog from "../../entities/Asset/ui/AssetDialog";
 import AssetDetailsDialog from "../../entities/Asset/ui/AssetDetailsDialog";
+import AssetSwitchStatusDialog from "../../entities/Asset/ui/AssetSwitchStatusDialog";
 
 const Assets = () => {
 
@@ -17,6 +18,8 @@ const Assets = () => {
   const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+
+  const [switchDialogOpen, setSwitchDialogOpen] = useState(false);
 
   const handleCreate = () => {
     setIsEditMode(false);
@@ -35,9 +38,21 @@ const Assets = () => {
     setDialogOpen(true);
   };
 
+  const handleDialogSubmit = async (data: CreateAssetRequest | EditAssetRequest) => {
+    if (isEditMode) {
+      await handleEditAsset(data as EditAssetRequest);
+    } else {
+      await handleCreateAsset(data as CreateAssetRequest);
+    }
+  };
+
   const handleClose = () => {
     setDialogOpen(false);
     setDetailsDialogOpen(false);
+  };
+
+  const handleSwitchDialogClose = () => {
+    setSwitchDialogOpen(false);
   };
 
   const handleCreateAsset = async (data: CreateAssetRequest) => {
@@ -82,6 +97,33 @@ const Assets = () => {
     }
   };
 
+  const handleAssetStatusSwitchDialogOpen = (asset: Asset) => {
+    setSelectedAsset(asset);
+    setSwitchDialogOpen(true);
+  }
+
+  const handleAssetStatusSwitch = async () => {
+    if (!selectedAsset) return;
+    try {
+      const updated = await switchAssetStatus(selectedAsset.id, !selectedAsset.isActive);
+
+      setSwitchDialogOpen(false);
+      setSelectedAsset(null);
+
+      setAssets((prev) =>
+        prev.map((asset) => (asset.id === selectedAsset.id ? updated : asset))
+      );
+
+    } catch (e: unknown) {
+      if (axios.isAxiosError(e)) {
+        setError(e.response?.data?.message ?? e.message);
+      } else if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("Unknown error");
+      }
+    }
+  };
 
   async function fetchAssets() {
     try {
@@ -105,18 +147,17 @@ const Assets = () => {
     fetchAssets();
   }, [])
 
-
   if (loading) {
     return <CircularProgress />;
   }
 
-  // if (error) {
-  //   return (
-  //     <Alert severity="error">
-  //       {error}
-  //     </Alert>
-  //   );
-  // }
+  if (error) {
+    return (
+      <Alert severity="error">
+        {error}
+      </Alert>
+    );
+  }
 
   if (assets.length === 0) {
     return (
@@ -124,15 +165,6 @@ const Assets = () => {
         <Typography>Assets</Typography>
         <Button onClick={handleCreate}>Create</Button>
         <Typography>No assets found</Typography>
-        <AssetDialog
-          open={dialogOpen}
-          onClose={handleClose}
-          onSubmit={isEditMode ? handleEditAsset : handleCreateAsset}
-          title={isEditMode ? "Edit Asset" : "Create Asset"}
-          submitLabel={isEditMode ? "Save" : "Create"}
-          submitting={creating}
-          asset={selectedAsset}
-        />
       </Container>
     );
   }
@@ -140,11 +172,14 @@ const Assets = () => {
     <Container>
       <Typography>Assets</Typography>
       <Button onClick={handleCreate}>Create</Button>
-      <AssetList assets={assets} onSelectAsset={handleOpenDetails} />
+      <AssetList
+        assets={assets}
+        onSelectAsset={handleOpenDetails}
+        onStatusAssetSwitch={handleAssetStatusSwitchDialogOpen} />
       <AssetDialog
         open={dialogOpen}
         onClose={handleClose}
-        onSubmit={isEditMode ? handleEditAsset : handleCreateAsset}
+        onSubmit={handleDialogSubmit}
         title={isEditMode ? "Edit Asset" : "Create Asset"}
         submitLabel={isEditMode ? "Save" : "Create"}
         submitting={creating}
@@ -154,6 +189,12 @@ const Assets = () => {
         onClose={handleClose}
         asset={selectedAsset}
         onEdit={handleOpenEdit} />
+      <AssetSwitchStatusDialog
+        open={switchDialogOpen}
+        onClose={handleSwitchDialogClose}
+        onSwitch={handleAssetStatusSwitch}
+        isActive={selectedAsset?.isActive ?? false}
+      />
     </Container>
   );
 }
