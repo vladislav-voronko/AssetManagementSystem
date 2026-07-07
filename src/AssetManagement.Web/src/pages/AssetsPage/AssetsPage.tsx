@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import AssetList from "../../entities/Asset/ui/AssetList";
 import { createAsset, editAsset, getAssets, switchAssetStatus } from "../../entities/Asset/model/assetApi";
 import type { Asset, CreateAssetRequest, EditAssetRequest } from "../../entities/Asset/model/assetTypes";
-import { Alert, Button, CircularProgress, Container, Typography } from "@mui/material";
+import { Alert, Button, CircularProgress, Container, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import AssetDialog from "../../entities/Asset/ui/AssetDialog";
 import AssetDetailsDialog from "../../entities/Asset/ui/AssetDetailsDialog";
 import AssetSwitchStatusDialog from "../../entities/Asset/ui/AssetSwitchStatusDialog";
+import { Add } from "@mui/icons-material";
+import AssetGrid from "../../entities/Asset/ui/AssetGrid";
 
 const Assets = () => {
 
@@ -32,7 +33,8 @@ const Assets = () => {
     setDetailsDialogOpen(true);
   };
 
-  const handleOpenEdit = () => {
+  const handleOpenEdit = (asset: Asset) => {
+    setSelectedAsset(asset);
     setIsEditMode(true);
     setDetailsDialogOpen(false);
     setDialogOpen(true);
@@ -162,20 +164,46 @@ const Assets = () => {
   if (assets.length === 0) {
     return (
       <Container>
-        <Typography>Assets</Typography>
-        <Button onClick={handleCreate}>Create</Button>
+        <Stack
+          direction="row"
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            color="primary">
+            Assets
+          </Typography>
+          <Button color="primary" variant="contained" onClick={handleCreate}><Add fontSize="inherit" />New Asset</Button>
+        </Stack>
         <Typography>No assets found</Typography>
       </Container>
     );
   }
   return (
     <Container>
-      <Typography>Assets</Typography>
-      <Button onClick={handleCreate}>Create</Button>
-      <AssetList
+      <Stack
+        direction="row"
+        sx={{
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}>
+        <Typography
+          variant="h4"
+          gutterBottom
+          color="primary">
+          Assets
+        </Typography>
+        <Button color="primary" variant="contained" onClick={handleCreate}><Add fontSize="inherit" />New Asset</Button>
+      </Stack>
+      <AssetGrid
         assets={assets}
         onSelectAsset={handleOpenDetails}
-        onStatusAssetSwitch={handleAssetStatusSwitchDialogOpen} />
+        onStatusAssetSwitch={handleAssetStatusSwitchDialogOpen}
+        onEditAsset={handleOpenEdit}
+      />
       <AssetDialog
         open={dialogOpen}
         onClose={handleClose}
@@ -193,8 +221,7 @@ const Assets = () => {
         open={switchDialogOpen}
         onClose={handleSwitchDialogClose}
         onSwitch={handleAssetStatusSwitch}
-        isActive={selectedAsset?.isActive ?? false}
-      />
+        isActive={selectedAsset?.isActive ?? false} />
     </Container>
   );
 }

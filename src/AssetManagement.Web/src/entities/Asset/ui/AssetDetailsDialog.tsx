@@ -1,20 +1,22 @@
 import type { FC } from "react";
 import type { Asset } from "../model/assetTypes";
-import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import AssetDetailsView from "./AssetDetailsView";
 
 interface AssetDetailsDialogProps {
     open: boolean;
     asset: Asset | null;
     onClose: () => void;
-    onEdit: () => void;
+    onEdit: (asset: Asset) => void;
 }
 
 
 const AssetDetailsDialog: FC<AssetDetailsDialogProps> = ({ open, asset, onClose, onEdit }) => {
-    
+
     const handleEdit = () => {
-        onEdit();
+        if (asset) {
+            onEdit(asset);
+        }
     };
 
     if (!asset) return null;
@@ -23,12 +25,21 @@ const AssetDetailsDialog: FC<AssetDetailsDialogProps> = ({ open, asset, onClose,
             <DialogTitle>Asset Details</DialogTitle>
             <DialogContent>
                 <AssetDetailsView asset={asset}></AssetDetailsView>
+            </DialogContent>
+            <DialogActions>
                 <Button
-                    variant="outlined"
+                    color="secondary"
+                    variant="contained"
+                    onClick={onClose}>
+                    Close
+                </Button>
+                <Button
+                    color="primary"
+                    variant="contained"
                     onClick={handleEdit}>
                     Edit
                 </Button>
-            </DialogContent>
+            </DialogActions>
         </Dialog>
     );
 }

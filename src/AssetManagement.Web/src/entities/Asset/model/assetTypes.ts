@@ -1,3 +1,5 @@
+import type { ChipProps } from "@mui/material";
+
 export interface Asset {
   id: string;
   symbol: string;
@@ -37,3 +39,49 @@ export const AssetTypeName = {
     [AssetType.Bond]: "Bond",
     [AssetType.Commodity]: "Commodity",
 } as const;
+
+export const AssetTypeConfig = {
+    [AssetType.Stock]: {
+        label: "Stock",
+        color: "primary",
+    },
+    [AssetType.Crypto]: {
+        label: "Crypto",
+        color: "warning",
+    },
+    [AssetType.ETF]: {
+        label: "ETF",
+        color: "success",
+    },
+    [AssetType.Bond]: {
+        label: "Bond",
+        color: "info",
+    },
+    [AssetType.Commodity]: {
+        label: "Commodity",
+        color: "secondary",
+    },
+} satisfies Record<
+    AssetType,
+    {
+        label: string;
+        color: ChipProps["color"];
+    }
+>;
+
+export const AssetStatusConfig = {
+    active: {
+        label: "Active",
+        color: "success",
+    },
+    inactive: {
+        label: "Inactive",
+        color: "default",
+    },
+} satisfies Record<
+    "active" | "inactive",
+    {
+        label: string;
+        color: ChipProps["color"];
+    }
+>;

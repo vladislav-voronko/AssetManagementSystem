@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import type { FC } from "react";
 
 interface AssetSwitchStatusDialogProps {
@@ -26,10 +26,12 @@ const AssetSwitchStatusDialog: FC<AssetSwitchStatusDialogProps> = ({ open, onClo
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
-                <Typography>{dialogBody}</Typography>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={onSwitch}>{submitLabel}</Button>
+                <DialogContentText>{dialogBody}</DialogContentText>
             </DialogContent>
+            <DialogActions>
+                <Button color="secondary" variant="contained" onClick={onClose}>Cancel</Button>
+                <Button color="primary" variant="contained" onClick={onSwitch}>{submitLabel}</Button>
+            </DialogActions>
         </Dialog>);
 }
 

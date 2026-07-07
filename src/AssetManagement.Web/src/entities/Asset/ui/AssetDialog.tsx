@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle, MenuItem, TextField } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField } from "@mui/material";
 import { useEffect, useState, type FC } from "react";
 import { AssetType, AssetTypeName, type Asset, type CreateAssetRequest, type EditAssetRequest } from "../model/assetTypes";
 
@@ -97,12 +97,21 @@ const AssetDialog: FC<AssetDialogProps> = ({ open, onClose, onSubmit, submitting
                             </MenuItem>
                         ))}
                     </TextField>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        disabled={submitting}>
-                        {submitLabel}
-                    </Button>
+                    <DialogActions>
+                        <Button
+                            color="secondary"
+                            variant="contained"
+                            onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button
+                            color="primary"
+                            type="submit"
+                            variant="contained"
+                            disabled={submitting}>
+                            {submitLabel}
+                        </Button>
+                    </DialogActions>
                 </form>
             </DialogContent>
         </Dialog>
