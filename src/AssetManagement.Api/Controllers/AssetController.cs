@@ -87,7 +87,6 @@ namespace AssetManagement.Api.Controllers
                 Symbol = request.Symbol,
                 Name = request.Name,
                 Type = request.Type,
-                IsActive = request.IsActive
             };
 
             var asset = await _updateAssetHandler.Handle(command, cancellationToken);
