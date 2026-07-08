@@ -1,23 +1,23 @@
 import type { ChipProps } from "@mui/material";
 
 export interface Asset {
-  id: string;
-  symbol: string;
-  name: string;
-  type: AssetType;
-  isActive: boolean;
+    id: string;
+    symbol: string;
+    name: string;
+    type: AssetType;
+    isActive: boolean;
 }
 
 export interface CreateAssetRequest {
-  symbol: string;
-  name: string;
-  type: AssetType;
+    symbol: string;
+    name: string;
+    type: AssetType;
 }
 
 export interface EditAssetRequest {
-  symbol: string;
-  name: string;
-  type: AssetType;
+    symbol: string;
+    name: string;
+    type: AssetType;
 }
 
 export const AssetType = {
@@ -39,7 +39,12 @@ export const AssetTypeName = {
     [AssetType.Commodity]: "Commodity",
 } as const;
 
-export const AssetTypeConfig = {
+type ChipConfig = {
+    label: string;
+    color: ChipProps["color"];
+};
+
+export const AssetTypeConfig: Record<AssetType, ChipConfig> = {
     [AssetType.Stock]: {
         label: "Stock",
         color: "primary",
@@ -60,15 +65,11 @@ export const AssetTypeConfig = {
         label: "Commodity",
         color: "secondary",
     },
-} satisfies Record<
-    AssetType,
-    {
-        label: string;
-        color: ChipProps["color"];
-    }
->;
+};
 
-export const AssetStatusConfig = {
+type AssetStatus = "active" | "inactive";
+
+export const AssetStatusConfig: Record<AssetStatus, ChipConfig> = {
     active: {
         label: "Active",
         color: "success",
@@ -77,10 +78,4 @@ export const AssetStatusConfig = {
         label: "Inactive",
         color: "default",
     },
-} satisfies Record<
-    "active" | "inactive",
-    {
-        label: string;
-        color: ChipProps["color"];
-    }
->;
+};

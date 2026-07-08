@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { createAsset, editAsset, getAssets, switchAssetStatus } from "../../entities/Asset/model/assetApi";
 import type { Asset, CreateAssetRequest, EditAssetRequest } from "../../entities/Asset/model/assetTypes";
-import { Alert, Button, CircularProgress, Container, Stack, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import axios from "axios";
 import AssetDialog from "../../entities/Asset/ui/AssetDialog";
 import AssetDetailsDialog from "../../entities/Asset/ui/AssetDetailsDialog";
 import AssetSwitchStatusDialog from "../../entities/Asset/ui/AssetSwitchStatusDialog";
-import { Add } from "@mui/icons-material";
 import AssetGrid from "../../entities/Asset/ui/AssetGrid";
+import PageHeader from "../../shared/ui/PageHeader";
+import PageContainer from "../../shared/ui/PageContainer";
 
 const Assets = () => {
 
@@ -149,61 +150,36 @@ const Assets = () => {
     fetchAssets();
   }, [])
 
-  if (loading) {
-    return <CircularProgress />;
-  }
-
-  if (error) {
-    return (
-      <Alert severity="error">
-        {error}
-      </Alert>
-    );
-  }
-
-  if (assets.length === 0) {
-    return (
-      <Container>
-        <Stack
-          direction="row"
-          sx={{
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}>
-          <Typography
-            variant="h4"
-            gutterBottom
-            color="primary">
-            Assets
-          </Typography>
-          <Button color="primary" variant="contained" onClick={handleCreate}><Add fontSize="inherit" />New Asset</Button>
-        </Stack>
-        <Typography>No assets found</Typography>
-      </Container>
-    );
-  }
   return (
-    <Container>
-      <Stack
-        direction="row"
-        sx={{
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}>
+    <PageContainer
+      loading={loading}
+      error={error}
+    >
+      <PageHeader
+        title="Assets"
+        subtitle="Manage your investment assets" />
+
+      {assets.length === 0 ? (
         <Typography
-          variant="h4"
-          gutterBottom
-          color="primary">
-          Assets
+          variant="body1"
+          color="text.secondary"
+          sx={{
+            textAlign: "center",
+            mt: 6,
+          }}
+        >
+          No assets found.
         </Typography>
-        <Button color="primary" variant="contained" onClick={handleCreate}><Add fontSize="inherit" />New Asset</Button>
-      </Stack>
-      <AssetGrid
-        assets={assets}
-        onSelectAsset={handleOpenDetails}
-        onStatusAssetSwitch={handleAssetStatusSwitchDialogOpen}
-        onEditAsset={handleOpenEdit}
-      />
+      ) : (
+        <AssetGrid
+          assets={assets}
+          onSelectAsset={handleOpenDetails}
+          onEditAsset={handleOpenEdit}
+          onStatusAssetSwitch={handleAssetStatusSwitchDialogOpen}
+          onCreateAsset={handleCreate}
+        />
+      )}
+
       <AssetDialog
         open={dialogOpen}
         onClose={handleClose}
@@ -211,18 +187,23 @@ const Assets = () => {
         title={isEditMode ? "Edit Asset" : "Create Asset"}
         submitLabel={isEditMode ? "Save" : "Create"}
         submitting={creating}
-        asset={selectedAsset} />
+        asset={selectedAsset}
+      />
+
       <AssetDetailsDialog
         open={detailsDialogOpen}
         onClose={handleClose}
         asset={selectedAsset}
-        onEdit={handleOpenEdit} />
+        onEdit={handleOpenEdit}
+      />
+
       <AssetSwitchStatusDialog
         open={switchDialogOpen}
         onClose={handleSwitchDialogClose}
         onSwitch={handleAssetStatusSwitch}
-        isActive={selectedAsset?.isActive ?? false} />
-    </Container>
+        isActive={selectedAsset?.isActive ?? false}
+      />
+    </PageContainer>
   );
 }
 

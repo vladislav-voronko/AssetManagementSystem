@@ -97,23 +97,23 @@ const AssetDialog: FC<AssetDialogProps> = ({ open, onClose, onSubmit, submitting
                             </MenuItem>
                         ))}
                     </TextField>
-                    <DialogActions>
-                        <Button
-                            color="secondary"
-                            variant="contained"
-                            onClick={onClose}>
-                            Cancel
-                        </Button>
-                        <Button
-                            color="primary"
-                            type="submit"
-                            variant="contained"
-                            disabled={submitting}>
-                            {submitLabel}
-                        </Button>
-                    </DialogActions>
                 </form>
             </DialogContent>
+            <DialogActions>
+                <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={onClose}>
+                    Cancel
+                </Button>
+                <Button
+                    color="primary"
+                    type="submit"
+                    variant="contained"
+                    disabled={submitting}>
+                    {submitLabel}
+                </Button>
+            </DialogActions>
         </Dialog>
     );
 }

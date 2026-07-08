@@ -1,8 +1,23 @@
-import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import { type FC } from "react";
-import { AssetStatusConfig, AssetTypeConfig, type Asset } from "../model/assetTypes";
+import {
+    DataGrid,
+    type GridColDef,
+} from "@mui/x-data-grid";
+import {
+    type FC,
+    useMemo,
+    useState,
+} from "react";
+
+import {
+    AssetStatusConfig,
+    AssetTypeConfig,
+    type Asset,
+    AssetType,
+} from "../model/assetTypes";
+
 import { Chip } from "@mui/material";
 import AssetActionsMenu from "./AssetActionsMenu";
+import AssetGridToolbar, { type AssetFilters } from "./AssetGridToolbar";
 
 
 interface AssetGridProps {
@@ -10,10 +25,64 @@ interface AssetGridProps {
     onSelectAsset: (asset: Asset) => void;
     onEditAsset: (asset: Asset) => void;
     onStatusAssetSwitch: (asset: Asset) => void;
+    onCreateAsset: () => void;
 }
 
 
-const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onStatusAssetSwitch, }) => {
+const AssetGrid: FC<AssetGridProps> = ({
+    assets,
+    onSelectAsset,
+    onEditAsset,
+    onStatusAssetSwitch,
+    onCreateAsset,
+}) => {
+
+    const [filters, setFilters] = useState<AssetFilters>({
+        search: "",
+        type: "all",
+        status: "all",
+    });
+
+
+    const filteredAssets = useMemo(() => {
+        return assets.filter((asset) => {
+
+            const search =
+                filters.search.toLowerCase();
+
+
+            const searchMatch =
+                asset.name
+                    .toLowerCase()
+                    .includes(search)
+                ||
+                asset.symbol
+                    .toLowerCase()
+                    .includes(search);
+
+
+            const typeMatch =
+                filters.type === "all"
+                ||
+                asset.type === filters.type;
+
+
+            const statusMatch =
+                filters.status === "all"
+                ||
+                asset.isActive ===
+                (filters.status === "active");
+
+
+            return (
+                searchMatch &&
+                typeMatch &&
+                statusMatch
+            );
+        });
+
+    }, [assets, filters]);
+
 
     const columns: GridColDef<Asset>[] = [
         {
@@ -30,10 +99,19 @@ const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onS
             field: "type",
             headerName: "Type",
             width: 150,
+
             renderCell: (params) => (
                 <Chip
-                    label={AssetTypeConfig[params.row.type].label}
-                    color={AssetTypeConfig[params.row.type].color}
+                    label={
+                        AssetTypeConfig[
+                            params.row.type
+                        ].label
+                    }
+                    color={
+                        AssetTypeConfig[
+                            params.row.type
+                        ].color
+                    }
                     size="small"
                 />
             ),
@@ -42,6 +120,7 @@ const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onS
             field: "isActive",
             headerName: "Status",
             width: 130,
+
             renderCell: (params) => (
                 <Chip
                     label={
@@ -66,6 +145,7 @@ const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onS
             filterable: false,
             disableColumnMenu: true,
             align: "center",
+
             renderCell: (params) => (
                 <AssetActionsMenu
                     asset={params.row}
@@ -76,14 +156,57 @@ const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onS
         },
     ];
 
+
     return (
-        <>
-            <DataGrid
-                rows={assets}
-                columns={columns}
-                disableRowSelectionOnClick
-                onRowClick={(params) => onSelectAsset(params.row)} />
-        </>
+        <DataGrid
+            rows={filteredAssets}
+            columns={columns}
+
+            disableColumnMenu
+            disableColumnResize
+            disableRowSelectionOnClick
+
+            slots={{
+                toolbar: AssetGridToolbar,
+            }}
+
+            slotProps={{
+                toolbar: {
+                    onCreate: onCreateAsset,
+                    filters,
+                    setFilters,
+                },
+            }}
+
+            showToolbar
+
+            onRowClick={(params) =>
+                onSelectAsset(params.row)
+            }
+
+            initialState={{
+                sorting: {
+                    sortModel: [
+                        {
+                            field: "symbol",
+                            sort: "asc",
+                        },
+                    ],
+                },
+
+                pagination: {
+                    paginationModel: {
+                        pageSize: 10,
+                    },
+                },
+            }}
+
+            pageSizeOptions={[
+                10,
+                25,
+                50,
+            ]}
+        />
     );
 };
 
