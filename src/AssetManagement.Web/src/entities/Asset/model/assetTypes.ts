@@ -18,7 +18,6 @@ export interface EditAssetRequest {
   symbol: string;
   name: string;
   type: AssetType;
-  isActive: boolean;
 }
 
 export const AssetType = {

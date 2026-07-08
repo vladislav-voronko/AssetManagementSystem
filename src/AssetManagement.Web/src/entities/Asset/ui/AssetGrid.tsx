@@ -1,8 +1,8 @@
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import { AssetStatusConfig, AssetTypeConfig, type Asset } from "../model/assetTypes";
-import { Chip, IconButton, Menu, MenuItem } from "@mui/material";
-import { MoreVert } from "@mui/icons-material";
+import { Chip } from "@mui/material";
+import AssetActionsMenu from "./AssetActionsMenu";
 
 
 interface AssetGridProps {
@@ -15,7 +15,7 @@ interface AssetGridProps {
 
 const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onStatusAssetSwitch, }) => {
 
-    const columns: GridColDef[] = [
+    const columns: GridColDef<Asset>[] = [
         {
             field: "symbol",
             headerName: "Symbol",
@@ -32,8 +32,8 @@ const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onS
             width: 150,
             renderCell: (params) => (
                 <Chip
-                    label={AssetTypeConfig[params.value].label}
-                    color={AssetTypeConfig[params.value].color}
+                    label={AssetTypeConfig[params.row.type].label}
+                    color={AssetTypeConfig[params.row.type].color}
                     size="small"
                 />
             ),
@@ -45,12 +45,12 @@ const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onS
             renderCell: (params) => (
                 <Chip
                     label={
-                        params.value
+                        params.row.isActive
                             ? AssetStatusConfig.active.label
                             : AssetStatusConfig.inactive.label
                     }
                     color={
-                        params.value
+                        params.row.isActive
                             ? AssetStatusConfig.active.color
                             : AssetStatusConfig.inactive.color
                     }
@@ -65,36 +65,16 @@ const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onS
             sortable: false,
             filterable: false,
             disableColumnMenu: true,
-
+            align: "center",
             renderCell: (params) => (
-                <IconButton
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        handleMenuOpen(event, params.row);
-                    }}
-                >
-                    <MoreVert />
-                </IconButton>
+                <AssetActionsMenu
+                    asset={params.row}
+                    onEdit={onEditAsset}
+                    onStatusSwitch={onStatusAssetSwitch}
+                />
             ),
         },
     ];
-
-    const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
-    const [selectedMenuAsset, setSelectedMenuAsset] = useState<Asset | null>(null);
-
-    const handleMenuOpen = (
-        event: React.MouseEvent<HTMLElement>,
-        asset: Asset
-    ) => {
-        setMenuAnchor(event.currentTarget);
-        setSelectedMenuAsset(asset);
-    };
-
-    const handleMenuClose = () => {
-        setMenuAnchor(null);
-        setSelectedMenuAsset(null);
-    };
-
 
     return (
         <>
@@ -103,35 +83,6 @@ const AssetGrid: FC<AssetGridProps> = ({ assets, onSelectAsset, onEditAsset, onS
                 columns={columns}
                 disableRowSelectionOnClick
                 onRowClick={(params) => onSelectAsset(params.row)} />
-
-            <Menu
-                anchorEl={menuAnchor}
-                open={Boolean(menuAnchor)}
-                onClose={handleMenuClose}>
-                <MenuItem
-                    onClick={() => {
-                        if (selectedMenuAsset) {
-                            onEditAsset(selectedMenuAsset);
-                        }
-                        handleMenuClose();
-                    }}>
-                    Edit
-                </MenuItem>
-
-                <MenuItem
-                    onClick={() => {
-                        if (selectedMenuAsset) {
-                            onStatusAssetSwitch(selectedMenuAsset);
-                        }
-                        handleMenuClose();
-                    }}>
-                    {
-                        selectedMenuAsset?.isActive
-                            ? "Deactivate"
-                            : "Activate"
-                    }
-                </MenuItem>
-            </Menu>
         </>
     );
 };
