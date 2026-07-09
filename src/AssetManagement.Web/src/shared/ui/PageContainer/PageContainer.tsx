@@ -1,19 +1,15 @@
-import { Alert, Box, CircularProgress, Typography, } from "@mui/material";
+import { Alert, Box, CircularProgress } from "@mui/material";
 import type { ReactNode } from "react";
 
 interface PageContainerProps {
     loading?: boolean;
-    error?: string | null;
-    empty?: boolean;
-    emptyText?: string;
+    error?: unknown;
     children: ReactNode;
 }
 
 const PageContainer = ({
     loading = false,
     error = null,
-    empty = false,
-    emptyText = "No data found",
     children,
 }: PageContainerProps) => {
     if (loading) {
@@ -33,9 +29,17 @@ const PageContainer = ({
 
     if (error) {
         return (
-            <Alert severity="error">
-                {error}
-            </Alert>
+            <Box
+                sx={{
+                    p: 3,
+                }}
+            >
+                <Alert severity="error">
+                    {error instanceof Error
+                        ? error.message
+                        : "Unexpected error occurred"}
+                </Alert>
+            </Box>
         );
     }
 
@@ -46,19 +50,6 @@ const PageContainer = ({
             }}
         >
             {children}
-
-            {empty && (
-                <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    sx={{
-                        mt: 3,
-                        textAlign: "center",
-                    }}
-                >
-                    {emptyText}
-                </Typography>
-            )}
         </Box>
     );
 };

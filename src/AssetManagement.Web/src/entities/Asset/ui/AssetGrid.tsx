@@ -12,7 +12,6 @@ import {
     AssetStatusConfig,
     AssetTypeConfig,
     type Asset,
-    AssetType,
 } from "../model/assetTypes";
 
 import { Chip } from "@mui/material";
@@ -42,6 +41,14 @@ const AssetGrid: FC<AssetGridProps> = ({
         type: "all",
         status: "all",
     });
+
+    const Toolbar = () => (
+        <AssetGridToolbar
+            onCreate={onCreateAsset}
+            filters={filters}
+            setFilters={setFilters}
+        />
+    );
 
 
     const filteredAssets = useMemo(() => {
@@ -161,21 +168,12 @@ const AssetGrid: FC<AssetGridProps> = ({
         <DataGrid
             rows={filteredAssets}
             columns={columns}
-
             disableColumnMenu
             disableColumnResize
             disableRowSelectionOnClick
 
             slots={{
-                toolbar: AssetGridToolbar,
-            }}
-
-            slotProps={{
-                toolbar: {
-                    onCreate: onCreateAsset,
-                    filters,
-                    setFilters,
-                },
+                toolbar: Toolbar,
             }}
 
             showToolbar
