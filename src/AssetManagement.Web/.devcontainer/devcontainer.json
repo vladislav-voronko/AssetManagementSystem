@@ -1,0 +1,8 @@
+{
+  "name": "AssetManagement Web",
+  "dockerComposeFile": "../compose.yaml",
+  "service": "web",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [5173],
+  "shutdownAction": "stopCompose"
+}

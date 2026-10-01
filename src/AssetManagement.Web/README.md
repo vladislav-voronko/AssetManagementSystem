@@ -1,5 +1,19 @@
 # React + TypeScript + Vite
 
+## Running in Docker
+
+Install Docker Desktop and the VS Code Dev Containers extension. From this directory, start the development server with:
+
+```powershell
+docker compose up --build
+```
+
+Open http://localhost:5173 in a browser. Source files are mounted from the host, so edits are picked up by Vite. Dependencies are installed in the container on startup.
+
+To open the project in the container from VS Code, run **Dev Containers: Reopen in Container** from the Command Palette.
+
+Stop the server with `docker compose down`.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
