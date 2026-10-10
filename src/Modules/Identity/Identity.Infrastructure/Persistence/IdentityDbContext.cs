@@ -13,8 +13,6 @@ namespace Identity.Infrastructure.Persistence
         {
         }
 
-        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
