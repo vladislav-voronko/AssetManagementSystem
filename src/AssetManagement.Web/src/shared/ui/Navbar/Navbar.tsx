@@ -13,8 +13,9 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "react-oidc-context";
 
 const navItems = [
   { label: "Assets", path: "/assets" },
@@ -26,6 +27,8 @@ const Navbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const auth = useAuth();
+  const location = useLocation();
 
   const handleDrawerToggle = () => {
     setDrawerOpen((prev) => !prev);
@@ -38,6 +41,23 @@ const Navbar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Asset Management
           </Typography>
+
+          {!auth.isLoading && (
+            <Button
+              color="inherit"
+              onClick={() =>
+                void (auth.isAuthenticated
+                  ? auth.signoutRedirect()
+                  : auth.signinRedirect({
+                      state: {
+                        returnTo: `${location.pathname}${location.search}${location.hash}`,
+                      },
+                    }))
+              }
+            >
+              {auth.isAuthenticated ? "Sign out" : "Sign in"}
+            </Button>
+          )}
 
           {isMobile ? (
             <IconButton color="inherit" edge="end" onClick={handleDrawerToggle}>

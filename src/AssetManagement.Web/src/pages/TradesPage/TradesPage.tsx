@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from "react";
+import { useEffect, useState } from "react";
 import TradeList from "../../entities/Trade/ui/TradeList";
 import type { ITradeItem } from "../../entities/Trade/ui/TradeItem";
 import { getTrades } from "../../entities/Trade/model/tradeApi";

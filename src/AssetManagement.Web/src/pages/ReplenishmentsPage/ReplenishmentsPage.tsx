@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from "react";
+import { useEffect, useState } from "react";
 import ReplenishmentList from "../../entities/Replenishment/ui/ReplenishmentList";
 import { getReplenishments } from "../../entities/Replenishment/model/replenishmentApi";
 import type { IReplenishmentItem } from "../../entities/Replenishment/ui/ReplenishmentItem";

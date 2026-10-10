@@ -7,6 +7,11 @@ export const getAssets = async () => {
     return response.data;
 };
 
+export const getAsset = async (id: string) => {
+    const response = await api.get<Asset>(`/assets/${id}`);
+    return response.data;
+};
+
 export const createAsset = async (data: CreateAssetRequest) => {
     const response = await api.post<Asset>(`/assets`, data);
     return response.data;

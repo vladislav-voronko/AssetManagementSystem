@@ -12,7 +12,7 @@ export const useCreateAssetMutation = () => {
 
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: assetKeys.all,
+                queryKey: assetKeys.lists(),
             });
         },
     });
@@ -30,9 +30,12 @@ export const useEditAssetMutation = () => {
             data: EditAssetRequest;
         }) => editAsset(id, data),
 
-        onSuccess: () => {
+        onSuccess: (_updatedAsset, variables) => {
             queryClient.invalidateQueries({
-                queryKey: assetKeys.all,
+                queryKey: assetKeys.detail(variables.id),
+            });
+            queryClient.invalidateQueries({
+                queryKey: assetKeys.lists(),
             });
         },
     });
@@ -54,9 +57,12 @@ export const useSwitchAssetStatusMutation = () => {
                 isActive
             ),
 
-        onSuccess: () => {
+        onSuccess: (_updatedAsset, variables) => {
             queryClient.invalidateQueries({
-                queryKey: assetKeys.all,
+                queryKey: assetKeys.detail(variables.id),
+            });
+            queryClient.invalidateQueries({
+                queryKey: assetKeys.lists(),
             });
         },
     });

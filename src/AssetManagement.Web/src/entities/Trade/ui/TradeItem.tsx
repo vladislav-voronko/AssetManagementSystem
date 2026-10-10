@@ -1,7 +1,7 @@
 import { TableRow, TableCell } from "@mui/material";
 import { type FC } from "react";
 import { TradeTypeName, type TradeType } from "../model/tradeTypes";
-import type { IAssetItem } from "../../Asset/ui/AssetItem";
+import type { Asset } from "../../Asset/model/assetTypes";
 
 export interface ITradeItem {
   id: string;
@@ -11,7 +11,7 @@ export interface ITradeItem {
   price: number;
   currency: string;
   executedAt: string;
-  asset: IAssetItem;
+  asset: Pick<Asset, "symbol">;
 }
 
 interface ITradeItemProps {

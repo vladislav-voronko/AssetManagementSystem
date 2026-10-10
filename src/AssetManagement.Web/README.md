@@ -10,6 +10,17 @@ docker compose up --build
 
 Open http://localhost:5173 in a browser. Source files are mounted from the host, so edits are picked up by Vite. Dependencies are installed in the container on startup.
 
+## OIDC setup
+
+Copy `.env.example` to `.env.local` and set the authority, client ID, scope, and API URL for your identity provider and backend. Do not add a client secret to this frontend application.
+
+Register the app as a public SPA client using Authorization Code with PKCE. For local development, allow this redirect URI and post-logout URI in the identity provider:
+
+- `http://localhost:5173/auth/callback`
+- `http://localhost:5173/`
+
+The API must accept Bearer access tokens for the configured scope. Restart Vite after changing `.env.local`.
+
 To open the project in the container from VS Code, run **Dev Containers: Reopen in Container** from the Command Palette.
 
 Stop the server with `docker compose down`.
