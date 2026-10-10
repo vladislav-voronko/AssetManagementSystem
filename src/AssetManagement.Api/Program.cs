@@ -1,21 +1,16 @@
 using AssetManagement.Api.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Identity.Application.Common;
-using Identity.Application.Interfaces;
 using Identity.Application.Validators;
 using Identity.Domain.Entities;
-using Identity.Infrastructure.Auth;
 using Identity.Infrastructure.Extensions;
 using Identity.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Shared.Infrastructure.Db;
 using System.Data;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,12 +57,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddDefaultTokenProviders();
 
-var jwtSettings = builder.Configuration
-    .GetSection("JwtSettings")
-    .Get<JwtSettings>();
-
-builder.Services.Configure<JwtSettings>(
-    builder.Configuration.GetSection("JwtSettings"));
+var authority = builder.Configuration["Authentication:Authority"]
+    ?? throw new InvalidOperationException("IdentityServer authority was not configured.");
+var audience = builder.Configuration["Authentication:Audience"]
+    ?? throw new InvalidOperationException("API audience was not configured.");
+var apiScope = builder.Configuration["Authentication:Scope"]
+    ?? throw new InvalidOperationException("API scope was not configured.");
+var spaOrigin = builder.Configuration["Authentication:SpaOrigin"]
+    ?? throw new InvalidOperationException("SPA origin was not configured.");
 
 builder.Services
     .AddAuthentication(options =>
@@ -80,28 +77,26 @@ builder.Services
     })
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters =
-            new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtSettings!.Issuer,
-                ValidAudience = jwtSettings.Audience,
-
-                IssuerSigningKey =
-                    new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(
-                            jwtSettings.Secret)),
-
-                ClockSkew = TimeSpan.Zero
-            };
+        options.Authority = authority;
+        options.Audience = audience;
+        options.RequireHttpsMetadata = true;
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.DefaultPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .RequireClaim("scope", apiScope)
+        .Build();
+});
 
-builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Spa", policy =>
+        policy.WithOrigins(spaOrigin)
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 
 builder.Services.AddModules(builder.Configuration);
 
@@ -119,12 +114,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseCors(builder
-    => builder
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .SetIsOriginAllowed(_ => true)
-        .AllowCredentials());
+app.UseCors("Spa");
 
 app.UseAuthentication();
 

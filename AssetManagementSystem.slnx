@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/AssetManagement.Api/AssetManagement.Api.csproj" />
+    <Project Path="src/AssetManagement.IdentityServer/AssetManagement.IdentityServer.csproj" Id="ee7fe113-8039-4259-86dc-0cab0478548d" />
   </Folder>
   <Folder Name="/src/BuildingBlocks/">
     <Project Path="src/BuildingBlocks/BuildingBlocks.Application/BuildingBlocks.Application.csproj" />
