@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions" Version="10.0.1" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,8 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Modules\Assets\Assets.Application\Assets.Application.csproj" />
     <ProjectReference Include="..\Modules\Assets\Assets.Contracts\Assets.Contracts.csproj" />
-    <ProjectReference Include="..\Modules\Identity\Identity.Domain\Identity.Domain.csproj" />
-    <ProjectReference Include="..\Modules\Identity\Identity.Infrastructure\Identity.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules\Replenishments\Replenishments.Application\Replenishments.Application.csproj" />
     <ProjectReference Include="..\Modules\Replenishments\Replenishments.Contracts\Replenishments.Contracts.csproj" />
     <ProjectReference Include="..\Modules\Trades\Trades.Application\Trades.Application.csproj" />

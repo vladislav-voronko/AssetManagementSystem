@@ -1,6 +1,5 @@
 ﻿using Assets.Application;
 using Trades.Application;
-using Identity.Infrastructure.Extensions;
 using Replenishments.Application;
 using Shared.Infrastructure.Extensions;
 
@@ -25,10 +24,8 @@ namespace AssetManagement.Api.Extensions
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' was not found.");
 
             services.AddBusinessDbContext(connectionString);
-            services.AddIdentityDbContext(connectionString);
 
             services.AddBusinessDbInitializer();
-            services.AddIdentityDbInitializer();
 
             return services;
         }

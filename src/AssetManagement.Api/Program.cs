@@ -1,12 +1,5 @@
 using AssetManagement.Api.Extensions;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Identity.Application.Validators;
-using Identity.Domain.Entities;
-using Identity.Infrastructure.Extensions;
-using Identity.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Shared.Infrastructure.Db;
@@ -38,24 +31,6 @@ builder.Services.AddSwaggerGen(options =>
             BearerFormat = "JWT"
         });
 });
-
-builder.Services.AddFluentValidationAutoValidation();
-
-builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
-        options =>
-        {
-            options.User.RequireUniqueEmail = true;
-
-            options.Password.RequireDigit = true;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = 6;
-        })
-    .AddEntityFrameworkStores<IdentityDbContext>()
-    .AddDefaultTokenProviders();
 
 var authority = builder.Configuration["Authentication:Authority"]
     ?? throw new InvalidOperationException("IdentityServer authority was not configured.");
@@ -104,8 +79,6 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    await ApplicationInitialization.InitializeDatabaseAsync(app.Services);
-
     app.UseSwagger();
     app.UseSwaggerUI();
 }

@@ -32,6 +32,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 var identityServerBuilder = builder.Services
     .AddIdentityServer()
@@ -104,5 +105,6 @@ app.UseIdentityServer();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
+app.MapRazorPages();
 
 app.Run();
