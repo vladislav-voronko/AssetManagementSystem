@@ -1,0 +1,18 @@
+@page
+@model ExternalLoginModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>External sign-in - Asset Management</title>
+</head>
+<body>
+    <main>
+        <h1>External sign-in</h1>
+        <p role="alert">@Model.ErrorMessage</p>
+        <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">Back to sign in</a>
+    </main>
+</body>
+</html>

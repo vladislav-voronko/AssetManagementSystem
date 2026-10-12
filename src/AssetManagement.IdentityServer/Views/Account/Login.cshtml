@@ -29,6 +29,15 @@
             </div>
             <button type="submit">Sign in</button>
         </form>
+        @if (Model.GoogleLoginEnabled)
+        {
+            <p>or</p>
+            <form asp-page="/Account/ExternalLogin" asp-page-handler="Challenge" method="post">
+                <input type="hidden" name="provider" value="Google" />
+                <input name="returnUrl" type="hidden" value="@Model.ReturnUrl" />
+                <button type="submit">Sign in with Google</button>
+            </form>
+        }
         <p>
             Don't have an account?
             <a asp-page="/Account/Register" asp-route-returnUrl="@Model.ReturnUrl">Create one</a>

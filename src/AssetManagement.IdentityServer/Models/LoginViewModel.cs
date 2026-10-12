@@ -16,4 +16,6 @@ public sealed class LoginViewModel
 
     [Required]
     public string ReturnUrl { get; set; } = string.Empty;
+
+    public bool GoogleLoginEnabled { get; set; }
 }

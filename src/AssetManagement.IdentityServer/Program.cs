@@ -4,6 +4,7 @@ using Identity.Domain.Entities;
 using Identity.Infrastructure.Extensions;
 using Identity.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,36 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
     })
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddDefaultTokenProviders();
+
+var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
+var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+
+if (string.IsNullOrWhiteSpace(googleClientId) != string.IsNullOrWhiteSpace(googleClientSecret))
+{
+    throw new InvalidOperationException(
+        "Both Google ClientId and ClientSecret must be configured together.");
+}
+
+if (!string.IsNullOrWhiteSpace(googleClientId))
+{
+    builder.Services.AddAuthentication()
+        .AddGoogle("Google", options =>
+        {
+            options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+            options.ClientId = googleClientId;
+            options.ClientSecret = googleClientSecret!;
+            options.CallbackPath = "/signin-google";
+            options.Events.OnRemoteFailure = context =>
+            {
+                var callbackUrl = context.Properties?.RedirectUri;
+                context.HandleResponse();
+                context.Response.Redirect(string.IsNullOrWhiteSpace(callbackUrl)
+                    ? "/"
+                    : QueryHelpers.AddQueryString(callbackUrl, "error", "external_login_failed"));
+                return Task.CompletedTask;
+            };
+        });
+}
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
