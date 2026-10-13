@@ -1,7 +1,11 @@
 ﻿using Assets.Application;
+using Assets.Infrastructure.Extensions;
+using AssetManagement.Api.Infrastructure;
 using Trades.Application;
+using Trades.Application.Interfaces;
+using Trades.Infrastructure.Extensions;
 using Replenishments.Application;
-using Shared.Infrastructure.Extensions;
+using Replenishments.Infrastructure.Extensions;
 
 namespace AssetManagement.Api.Extensions
 {
@@ -23,9 +27,11 @@ namespace AssetManagement.Api.Extensions
             var connectionString = configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' was not found.");
 
-            services.AddBusinessDbContext(connectionString);
-
-            services.AddBusinessDbInitializer();
+            services.AddTradesDbContext(connectionString);
+            services.AddAssetsDbContext(connectionString);
+            services.AddReplenishmentsDbContext(connectionString);
+            services.AddScoped<IReplenishmentBalanceReader, ReplenishmentBalanceReader>();
+            services.AddScoped<IAssetLookup, AssetLookup>();
 
             return services;
         }

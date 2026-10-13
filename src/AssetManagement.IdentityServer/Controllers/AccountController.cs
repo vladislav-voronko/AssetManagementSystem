@@ -71,11 +71,11 @@ public sealed class AccountController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Logout(LogoutViewModel model)
+    public async Task<IActionResult> Logout(LogoutViewModel model, CancellationToken ct)
     {
         await _signInManager.SignOutAsync();
 
-        var logoutContext = await _interaction.GetLogoutContextAsync(model.LogoutId);
+        var logoutContext = await _interaction.GetLogoutContextAsync(model.LogoutId, ct);
         if (!string.IsNullOrEmpty(logoutContext?.PostLogoutRedirectUri))
         {
             return Redirect(logoutContext.PostLogoutRedirectUri);

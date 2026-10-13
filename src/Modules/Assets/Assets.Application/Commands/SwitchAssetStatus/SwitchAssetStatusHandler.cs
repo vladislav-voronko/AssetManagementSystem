@@ -1,15 +1,15 @@
 ﻿using Assets.Application.Mappings;
 using Assets.Contracts.Responses;
+using Assets.Application.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Shared.Infrastructure.Persistence;
 
 namespace Assets.Application.Commands.SwitchAssetStatus
 {
     public class SwitchAssetStatusHandler
     {
-        private readonly BusinessDbContext _context;
+        private readonly IAssetsDbContext _context;
 
-        public SwitchAssetStatusHandler(BusinessDbContext context)
+        public SwitchAssetStatusHandler(IAssetsDbContext context)
         {
             _context = context;
         }

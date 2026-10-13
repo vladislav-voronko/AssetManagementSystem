@@ -1,5 +1,4 @@
-﻿using Assets.Domain.Entities;
-using Trades.Domain.Enums;
+﻿using Trades.Domain.Enums;
 
 namespace Trades.Domain.Entities
 {
@@ -13,6 +12,5 @@ namespace Trades.Domain.Entities
         public string Currency { get; set; } = null!;
         public DateTime ExecutedAt { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public Asset Asset { get; set; } = null!;
     }
 }

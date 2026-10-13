@@ -2,22 +2,22 @@
 using Replenishments.Application.Mappings;
 using Replenishments.Contracts.Responses;
 using Replenishments.Domain.Entities;
-using Shared.Infrastructure.Persistence;
+using Replenishments.Application.Persistence;
 
 namespace Replenishments.Application.Commands.CreateReplenishment
 {
     public class CreateReplenishmentHandler
     {
-        private readonly BusinessDbContext _context;
+        private readonly IReplenishmentsDbContext _context;
 
-        public CreateReplenishmentHandler(BusinessDbContext context)
+        public CreateReplenishmentHandler(IReplenishmentsDbContext context)
         {
             _context = context;
         }
 
         public async Task<ReplenishmentResponse> Handle(CreateReplenishmentCommand command, CancellationToken cancellationToken)
         {
-            var exists = await _context.Replenishments.AnyAsync(r => r.Amount == command.Amount && r.Currency == command.Currency && r.ReplenishedAt == command.ReplenishedAt);
+            var exists = await _context.Replenishments.AnyAsync(r => r.Amount == command.Amount && r.Currency == command.Currency && r.ReplenishedAt == command.ReplenishedAt, cancellationToken);
 
             if (exists)
             {
@@ -35,7 +35,7 @@ namespace Replenishments.Application.Commands.CreateReplenishment
             };
 
             _context.Replenishments.Add(replenishment);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return replenishment.ToResponse();
         }

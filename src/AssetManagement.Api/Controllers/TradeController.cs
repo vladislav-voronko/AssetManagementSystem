@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Application.Pagination;
+﻿using Shared.Application.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Trades.Application.Commands.CreateTrade;

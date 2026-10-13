@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Application.Extensions;
+﻿using Shared.Application.Extensions;
 using Replenishments.Application.Queries.GetReplenishments;
 using Replenishments.Domain.Entities;
 

@@ -6,7 +6,7 @@ namespace Trades.Application.Mappings
 {
     public static class TradeMappings
     {
-        public static TradeResponse ToResponse(this Trade trade)
+        public static TradeResponse ToResponse(this Trade trade, AssetResponse asset)
         {
             return new TradeResponse
             {
@@ -17,14 +17,7 @@ namespace Trades.Application.Mappings
                 Price = trade.Price,
                 Currency = trade.Currency,
                 ExecutedAt = trade.ExecutedAt,
-                Asset = new AssetResponse
-                {
-                    Id = trade.Asset.Id,
-                    Name = trade.Asset.Name,
-                    Symbol = trade.Asset.Symbol,
-                    Type = trade.Asset.Type,
-                    IsActive = trade.Asset.IsActive
-                }
+                Asset = asset
             };
         } 
     }

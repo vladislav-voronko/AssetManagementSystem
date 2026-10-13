@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shared.Infrastructure.Persistence;
 using Trades.Application.Interfaces;
+using Trades.Application.Persistence;
 using Trades.Application.Queries.Portfolio.GetCashBalance;
 using Trades.Domain.Enums;
 
@@ -8,19 +8,18 @@ namespace Trades.Application.Services
 {
     public class CashBalanceService : ICashBalanceService
     {
-        private readonly BusinessDbContext _context;
+        private readonly ITradesDbContext _context;
+        private readonly IReplenishmentBalanceReader _replenishmentBalanceReader;
 
-        public CashBalanceService(BusinessDbContext context)
+        public CashBalanceService(ITradesDbContext context, IReplenishmentBalanceReader replenishmentBalanceReader)
         {
             _context = context;
+            _replenishmentBalanceReader = replenishmentBalanceReader;
         }
 
         public async Task<GetCashBalanceResponse> GetBalanceAsync(string currency, CancellationToken cancellationToken)
         {
-            var replenishments = await _context.Replenishments
-                .AsNoTracking()
-                .Where(r => r.Currency == currency)
-                .SumAsync(r => (decimal?)r.Amount, cancellationToken) ?? 0;
+            var replenishments = await _replenishmentBalanceReader.GetAmountByCurrencyAsync(currency, cancellationToken);
 
             var buyAmount = await _context.Trades
                 .AsNoTracking()
@@ -49,15 +48,7 @@ namespace Trades.Application.Services
 
         public async Task<List<GetCashBalanceResponse>> GetBalancesAsync(CancellationToken cancellationToken)
         {
-            var replenishments = await _context.Replenishments
-                .AsNoTracking()
-                .GroupBy(r => r.Currency)
-                .Select(r => new
-                {
-                    Currency = r.Key,
-                    Amount = r.Sum(x => x.Amount)
-                })
-                .ToListAsync(cancellationToken);
+            var replenishments = await _replenishmentBalanceReader.GetAmountsByCurrencyAsync(cancellationToken);
 
             var trades = await _context.Trades
                 .AsNoTracking()
@@ -70,17 +61,16 @@ namespace Trades.Application.Services
                 })
                 .ToListAsync(cancellationToken);
 
-            var balance = replenishments
-                .Select(r =>
-                {
-                    var trade = trades.FirstOrDefault(t => t.Currency == r.Currency);
+            var balance = replenishments.Select(replenishment =>
+            {
+                var trade = trades.FirstOrDefault(item => item.Currency == replenishment.Key);
 
-                    return new GetCashBalanceResponse
-                    {
-                        Currency = r.Currency,
-                        Balance = r.Amount - (trade?.BuyAmount ?? 0) + (trade?.SellAmount ?? 0)
-                    };
-                }).ToList();
+                return new GetCashBalanceResponse
+                {
+                    Currency = replenishment.Key,
+                    Balance = replenishment.Value - (trade?.BuyAmount ?? 0) + (trade?.SellAmount ?? 0)
+                };
+            }).ToList();
 
             return balance;
         }

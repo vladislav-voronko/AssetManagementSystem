@@ -1,4 +1,4 @@
-﻿using Shared.Infrastructure.Persistence;
+﻿using Assets.Application.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Assets.Contracts.Responses;
 using Assets.Application.Mappings;
@@ -7,9 +7,9 @@ namespace Assets.Application.Commands.UpdateAsset
 {
     public class UpdateAssetHandler
     {
-        private readonly BusinessDbContext _context;
+        private readonly IAssetsDbContext _context;
 
-        public UpdateAssetHandler(BusinessDbContext context)
+        public UpdateAssetHandler(IAssetsDbContext context)
         {
             _context = context;
         }

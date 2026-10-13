@@ -1,5 +1,5 @@
-﻿using BuildingBlocks.Application.Filters;
-using BuildingBlocks.Application.Pagination;
+﻿using Shared.Application.Filters;
+using Shared.Application.Pagination;
 
 namespace Replenishments.Application.Queries.GetReplenishments
 {

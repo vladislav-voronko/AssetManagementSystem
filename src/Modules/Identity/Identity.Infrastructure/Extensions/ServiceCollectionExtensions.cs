@@ -19,7 +19,7 @@ namespace Identity.Infrastructure.Extensions
         {
             services.AddDbContext<IdentityDbContext>(options =>
                 options.UseNpgsql(connectionString,
-                        npgsql => npgsql.MigrationsHistoryTable("__ef_migrations_history", Schemas.Infrastructure))
+                        npgsql => npgsql.MigrationsHistoryTable("__identity_ef_migrations_history", Schemas.Infrastructure))
                 .UseSnakeCaseNamingConvention());
 
             return services;

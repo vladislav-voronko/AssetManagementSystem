@@ -1,6 +1,6 @@
 ﻿using Assets.Domain.Enums;
-using BuildingBlocks.Application.Filters;
-using BuildingBlocks.Application.Pagination;
+using Shared.Application.Filters;
+using Shared.Application.Pagination;
 using Trades.Domain.Enums;
 
 namespace Trades.Application.Queries.GetTrades

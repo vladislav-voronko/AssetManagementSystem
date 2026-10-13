@@ -1,5 +1,5 @@
 ﻿using Assets.Domain.Enums;
-using BuildingBlocks.Application.Pagination;
+using Shared.Application.Pagination;
 
 namespace Assets.Application.Queries.GetAssets
 {

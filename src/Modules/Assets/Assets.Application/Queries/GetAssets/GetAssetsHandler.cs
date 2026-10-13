@@ -1,18 +1,18 @@
 ﻿using Assets.Application.Extensions;
 using Assets.Application.Projections;
 using Assets.Contracts.Responses;
-using BuildingBlocks.Application.Extensions;
-using BuildingBlocks.Application.Pagination;
+using Assets.Application.Persistence;
+using Shared.Application.Extensions;
+using Shared.Application.Pagination;
 using Microsoft.EntityFrameworkCore;
-using Shared.Infrastructure.Persistence;
 
 namespace Assets.Application.Queries.GetAssets
 {
     public sealed class GetAssetsHandler
     {
-        private readonly BusinessDbContext _context;
+        private readonly IAssetsDbContext _context;
 
-        public GetAssetsHandler(BusinessDbContext context)
+        public GetAssetsHandler(IAssetsDbContext context)
         {
             _context = context;
         }

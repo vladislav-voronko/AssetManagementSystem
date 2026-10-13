@@ -1,15 +1,15 @@
 ﻿using Assets.Application.Projections;
 using Assets.Contracts.Responses;
+using Assets.Application.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Shared.Infrastructure.Persistence;
 
 namespace Assets.Application.Queries.GetAssetById
 {
     public sealed class GetAssetByIdHandler
     {
-        private readonly BusinessDbContext _context;
+        private readonly IAssetsDbContext _context;
 
-        public GetAssetByIdHandler(BusinessDbContext context)
+        public GetAssetByIdHandler(IAssetsDbContext context)
         {
             _context = context;
         }

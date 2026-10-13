@@ -19,20 +19,9 @@ namespace Shared.Infrastructure.Db
             {
                 var pendingMigrations = await Context.Database.GetPendingMigrationsAsync().ConfigureAwait(false);
 
-                if (pendingMigrations.Any())
-                {
-                    Context.Database.SetCommandTimeout(900);
-                    await Context.Database.MigrateAsync().ConfigureAwait(false);
+                await Context.Database.MigrateAsync().ConfigureAwait(false);
 
-                    var executionStrategy = Context.Database.CreateExecutionStrategy();
-                    await executionStrategy.ExecuteAsync(async
-                        () =>
-                    {
-                        using var tr = Context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
                         await Context.SaveChangesAsync().ConfigureAwait(false);
-                        tr.Commit();
-                    });
-                }
             }
             catch (Exception ex)
             {

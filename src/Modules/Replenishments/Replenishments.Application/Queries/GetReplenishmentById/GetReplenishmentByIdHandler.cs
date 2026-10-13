@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Replenishments.Application.Projections;
 using Replenishments.Contracts.Responses;
-using Shared.Infrastructure.Persistence;
+using Replenishments.Application.Persistence;
 
 namespace Replenishments.Application.Queries.GetReplenishmentById
 {
     public class GetReplenishmentByIdHandler
     {
-        private readonly BusinessDbContext _context;
+        private readonly IReplenishmentsDbContext _context;
 
-        public GetReplenishmentByIdHandler(BusinessDbContext context)
+        public GetReplenishmentByIdHandler(IReplenishmentsDbContext context)
         {
             _context = context;
         }

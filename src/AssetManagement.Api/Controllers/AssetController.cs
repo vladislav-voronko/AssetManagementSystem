@@ -5,7 +5,7 @@ using Assets.Application.Queries.GetAssetById;
 using Assets.Application.Queries.GetAssets;
 using Assets.Contracts.Requests;
 using Assets.Contracts.Responses;
-using BuildingBlocks.Application.Pagination;
+using Shared.Application.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

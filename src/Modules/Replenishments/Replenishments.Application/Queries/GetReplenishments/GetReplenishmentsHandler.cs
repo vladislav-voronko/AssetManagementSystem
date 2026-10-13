@@ -1,18 +1,18 @@
-﻿using BuildingBlocks.Application.Extensions;
-using BuildingBlocks.Application.Pagination;
+﻿using Shared.Application.Extensions;
+using Shared.Application.Pagination;
 using Microsoft.EntityFrameworkCore;
 using Replenishments.Application.Extensions;
 using Replenishments.Application.Projections;
 using Replenishments.Contracts.Responses;
-using Shared.Infrastructure.Persistence;
+using Replenishments.Application.Persistence;
 
 namespace Replenishments.Application.Queries.GetReplenishments
 {
     public class GetReplenishmentsHandler
     {
-        private readonly BusinessDbContext _context;
+        private readonly IReplenishmentsDbContext _context;
 
-        public GetReplenishmentsHandler(BusinessDbContext context)
+        public GetReplenishmentsHandler(IReplenishmentsDbContext context)
         {
             _context = context;
         }

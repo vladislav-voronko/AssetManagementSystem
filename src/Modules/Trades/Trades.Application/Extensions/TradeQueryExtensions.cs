@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Application.Extensions;
+﻿using Shared.Application.Extensions;
 using Trades.Application.Queries.GetTrades;
 using Trades.Domain.Entities;
 
@@ -15,9 +15,6 @@ namespace Trades.Application.Extensions
                 .WhereIf(
                     filter.TradeType.HasValue,
                     t => t.Type == filter.TradeType)
-                .WhereIf(
-                    filter.AssetType.HasValue,
-                    t => t.Asset.Type == filter.AssetType)
                 .WhereIf(
                     !string.IsNullOrWhiteSpace(filter.Currency),
                     t => t.Currency == filter.Currency)

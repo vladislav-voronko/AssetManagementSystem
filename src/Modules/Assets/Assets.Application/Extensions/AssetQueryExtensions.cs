@@ -1,6 +1,6 @@
 ﻿using Assets.Application.Queries.GetAssets;
 using Assets.Domain.Entities;
-using BuildingBlocks.Application.Extensions;
+using Shared.Application.Extensions;
 
 namespace Assets.Application.Extensions
 {

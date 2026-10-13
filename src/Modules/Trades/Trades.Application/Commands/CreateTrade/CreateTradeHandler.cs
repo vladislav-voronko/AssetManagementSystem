@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shared.Infrastructure.Persistence;
 using Trades.Application.Interfaces;
-using Trades.Application.Projections;
+using Trades.Application.Mappings;
+using Trades.Application.Persistence;
 using Trades.Contracts.Responses;
 using Trades.Domain.Entities;
 using Trades.Domain.Enums;
@@ -10,19 +10,24 @@ namespace Trades.Application.Commands.CreateTrade
 {
     public class CreateTradeHandler
     {
-        private readonly BusinessDbContext _context;
+        private readonly ITradesDbContext _context;
+        private readonly IAssetLookup _assetLookup;
         private readonly ICashBalanceService _cashBalanceService;
         private readonly IPositionService _positionService;
 
-        public CreateTradeHandler(BusinessDbContext context, ICashBalanceService cashBalanceService, IPositionService positionService)
+        public CreateTradeHandler(ITradesDbContext context, IAssetLookup assetLookup, ICashBalanceService cashBalanceService, IPositionService positionService)
         {
             _context = context;
+            _assetLookup = assetLookup;
             _cashBalanceService = cashBalanceService;
             _positionService = positionService;
         }
 
         public async Task<TradeResponse> Handle(CreateTradeCommand command, CancellationToken cancellationToken)
         {
+            var asset = await _assetLookup.GetByIdAsync(command.AssetId, cancellationToken)
+                ?? throw new InvalidOperationException($"Asset '{command.AssetId}' was not found.");
+
             var exists = await _context.Trades.AnyAsync(x => x.AssetId == command.AssetId && x.ExecutedAt == command.ExecutedAt, cancellationToken);
 
             if (exists)
@@ -71,11 +76,7 @@ namespace Trades.Application.Commands.CreateTrade
             _context.Trades.Add(trade);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return await _context.Trades
-                .AsNoTracking()
-                .Where(t => t.Id == trade.Id)
-                .Select(TradeProjection.ToResponse)
-                .FirstAsync(cancellationToken);
+            return trade.ToResponse(asset);
         }
     }
 }

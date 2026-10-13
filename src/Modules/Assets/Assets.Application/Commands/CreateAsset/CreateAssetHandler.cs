@@ -1,5 +1,5 @@
 ﻿using Assets.Domain.Entities;
-using Shared.Infrastructure.Persistence;
+using Assets.Application.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Assets.Contracts.Responses;
 using Assets.Application.Mappings;
@@ -8,9 +8,9 @@ namespace Assets.Application.Commands.CreateAsset
 {
     public class CreateAssetHandler
     {
-        private readonly BusinessDbContext _context;
+        private readonly IAssetsDbContext _context;
 
-        public CreateAssetHandler(BusinessDbContext context)
+        public CreateAssetHandler(IAssetsDbContext context)
         {
             _context = context;
         }

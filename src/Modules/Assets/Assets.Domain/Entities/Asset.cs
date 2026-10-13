@@ -1,5 +1,5 @@
 ﻿using Assets.Domain.Enums;
-using BuildingBlocks.Domain.Abstractions;
+using Shared.Kernel.Abstractions;
 
 namespace Assets.Domain.Entities
 {

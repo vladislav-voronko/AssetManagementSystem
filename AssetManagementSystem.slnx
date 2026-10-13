@@ -3,11 +3,6 @@
     <Project Path="src/AssetManagement.Api/AssetManagement.Api.csproj" />
     <Project Path="src/AssetManagement.IdentityServer/AssetManagement.IdentityServer.csproj" Id="ee7fe113-8039-4259-86dc-0cab0478548d" />
   </Folder>
-  <Folder Name="/src/BuildingBlocks/">
-    <Project Path="src/BuildingBlocks/BuildingBlocks.Application/BuildingBlocks.Application.csproj" />
-    <Project Path="src/BuildingBlocks/BuildingBlocks.Domain/BuildingBlocks.Domain.csproj" />
-    <Project Path="src/BuildingBlocks/BuildingBlocks.Infrastructure/BuildingBlocks.Infrastructure.csproj" />
-  </Folder>
   <Folder Name="/src/Modules/" />
   <Folder Name="/src/Modules/Assets/">
     <Project Path="src/Modules/Assets/Assets.Application/Assets.Application.csproj" />
@@ -34,7 +29,9 @@
     <Project Path="src/Modules/Trades/Trades.Infrastructure/Trades.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/Shared.Application/Shared.Application.csproj" />
     <Project Path="src/Shared/Shared.Contracts/Shared.Contracts.csproj" />
     <Project Path="src/Shared/Shared.Infrastructure/Shared.Infrastructure.csproj" Id="6127c60b-3ff7-42af-968e-8145f8d7cf5f" />
+    <Project Path="src/Shared/Shared.Kernel/Shared.Kernel.csproj" />
   </Folder>
 </Solution>
